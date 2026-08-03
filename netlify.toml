@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# VITE_API_BASE_URL is a public API endpoint, not a secret.
+# It is intentionally referenced in source code as a fallback for local dev.
+[context.production.environment]
+  SECRETS_SCAN_OMIT_KEYS = "VITE_API_BASE_URL"
+
+# SPA redirect — send all routes to index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
