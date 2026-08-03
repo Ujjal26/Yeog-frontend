@@ -1,0 +1,89 @@
+/* ============================================================
+   ADMIN DASHBOARD
+   ============================================================ */
+
+.admin-page {
+  background: var(--color-bg);
+  min-height: 100svh;
+}
+
+.admin-mobile-nav {
+  display: none;
+}
+
+.admin-header {
+  margin-bottom: var(--space-xl);
+}
+
+.admin-header h1 {
+  margin-bottom: var(--space-xs);
+}
+
+.admin-header p {
+  font-size: 0.95rem;
+}
+
+/* Stats */
+.dashboard-stats {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
+}
+
+.stat-card .stat-count {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-card .stat-label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+}
+
+.stat-active .stat-count { color: var(--color-warning); }
+.stat-available .stat-count { color: var(--color-success); }
+.stat-closed .stat-count { color: var(--color-gray); }
+
+.stat-active { border-left: 4px solid var(--color-warning); }
+.stat-available { border-left: 4px solid var(--color-success); }
+.stat-closed { border-left: 4px solid var(--color-gray); }
+
+/* Table Grid */
+.table-grid {
+  gap: var(--space-md);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin-mobile-nav {
+    display: block;
+  }
+
+  .dashboard-stats {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .stat-card {
+    padding: var(--space-md);
+  }
+
+  .stat-card .stat-count {
+    font-size: 1.5rem;
+  }
+}

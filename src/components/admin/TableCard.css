@@ -1,0 +1,148 @@
+.table-card {
+  padding: var(--space-md);
+  transition: var(--transition);
+  animation: scaleIn 0.3s ease-out both;
+}
+
+.table-card.table-active {
+  border-color: var(--color-warning);
+  border-width: 2px;
+}
+
+.table-card.table-available {
+  border-color: var(--color-success);
+  border-width: 2px;
+}
+
+.table-card.table-closed {
+  border-color: var(--color-gray);
+  opacity: 0.65;
+}
+
+.table-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.table-number {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.table-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.table-active .status-dot {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Active table body */
+.table-card-body {
+  padding-top: var(--space-sm);
+  border-top: 1px dashed var(--color-border);
+}
+
+.table-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.table-order-group {
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-order-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.table-order-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-xs);
+}
+
+.table-order-id {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.table-order-time {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.table-order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.table-order-item {
+  font-size: 0.82rem;
+  color: var(--color-text-light);
+  padding-left: var(--space-sm);
+  position: relative;
+}
+
+.table-order-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+}
+
+.table-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.table-order-total {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-primary);
+}
+
+.table-pay-btn {
+  font-size: 0.8rem;
+}
+
+/* Empty states */
+.table-card-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) 0;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+.empty-icon {
+  font-size: 1.5rem;
+}

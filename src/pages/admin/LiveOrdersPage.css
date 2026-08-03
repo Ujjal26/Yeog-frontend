@@ -1,0 +1,103 @@
+/* ============================================================
+   LIVE ORDERS PAGE
+   ============================================================ */
+
+.admin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.orders-total-badge {
+  flex-shrink: 0;
+}
+
+/* Bento Grid */
+.orders-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+.order-column {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  min-height: 400px;
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.column-header h3 {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.column-count {
+  font-size: 0.82rem;
+  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-gray-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+}
+
+.column-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+}
+
+.dot-red { background: var(--color-error); }
+.dot-green { background: var(--color-success); }
+
+.column-received .column-header { border-bottom-color: var(--color-error); }
+.column-served .column-header { border-bottom-color: var(--color-success); }
+
+.column-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.column-empty {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  color: var(--color-text-muted);
+}
+
+.column-empty span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.column-empty p {
+  font-size: 0.88rem;
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+  .orders-bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-column {
+    min-height: auto;
+  }
+}

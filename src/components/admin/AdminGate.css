@@ -1,0 +1,94 @@
+/* ============================================================
+   ADMIN GATE (Password Protection)
+   ============================================================ */
+
+.admin-gate {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #174205 0%, #0f2d03 40%, #1a3a0a 100%);
+  padding: var(--space-lg);
+}
+
+.gate-card {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-2xl);
+  text-align: center;
+}
+
+.gate-header {
+  margin-bottom: var(--space-xl);
+}
+
+.gate-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: var(--space-md);
+}
+
+.gate-header h2 {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.gate-header p {
+  font-size: 0.92rem;
+  color: var(--color-text-light);
+}
+
+.gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.gate-form .form-group {
+  text-align: left;
+}
+
+.gate-form .input-error {
+  border-color: var(--color-error);
+}
+
+.gate-error {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: 0.82rem;
+  color: var(--color-error);
+  font-weight: 500;
+}
+
+.gate-submit {
+  width: 100%;
+}
+
+.gate-hint {
+  margin-top: var(--space-lg);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.gate-hint code {
+  background: var(--color-bg-alt);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 0.78rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.gate-card.shake {
+  animation: shake 0.5s ease-in-out;
+}

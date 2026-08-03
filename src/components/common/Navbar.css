@@ -1,0 +1,144 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  padding: 0 var(--space-lg);
+  border-bottom: 1px solid rgba(232, 224, 216, 0.6);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.navbar-logo:hover {
+  transform: scale(1.03);
+}
+
+.logo-icon {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  animation: float 4s ease-in-out infinite;
+}
+
+.logo-text {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.logo-yeog {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.logo-cafe {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+/* Table indicator */
+.table-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 6px 16px;
+  background: rgba(23, 66, 5, 0.08);
+  border-radius: var(--radius-xl);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  border: 1px solid rgba(23, 66, 5, 0.15);
+}
+
+.table-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-success);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Admin nav links */
+.navbar-links {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  background: rgba(23, 66, 5, 0.06);
+  color: var(--color-primary);
+}
+
+.navbar-link.active {
+  background: rgba(23, 66, 5, 0.1);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.link-icon {
+  font-size: 1rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .navbar-inner {
+    height: 56px;
+  }
+
+  .logo-yeog {
+    font-size: 1.25rem;
+  }
+
+  .logo-cafe {
+    font-size: 0.95rem;
+  }
+
+  .navbar-links {
+    gap: 2px;
+  }
+
+  .navbar-link {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .link-label {
+    display: none;
+  }
+
+  .link-icon {
+    font-size: 1.2rem;
+  }
+}
