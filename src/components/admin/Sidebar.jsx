@@ -1,27 +1,31 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSocket } from '../../context/SocketContext';
-import ChangePasswordModal from './ChangePasswordModal';
-import './Sidebar.css';
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useSocket } from "../../context/SocketContext";
+import ChangePasswordModal from "./ChangePasswordModal";
+import "./Sidebar.css";
 
 export default function Sidebar() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const { isConnected } = useSocket();
 
   const links = [
-    { path: '/admin', label: 'Dashboard', icon: '📊', end: true },
-    { path: '/admin/orders', label: 'Live Orders', icon: '🔥', end: false },
-    { path: '/admin/tables', label: 'Tables', icon: '🪑', end: false },
-    { path: '/admin/menu', label: 'Menu Editor', icon: '📝', end: false },
+    { path: "/admin", label: "Dashboard", icon: "📊", end: true },
+    { path: "/admin/orders", label: "Live Orders", icon: "🔥", end: false },
+    { path: "/admin/tables", label: "Tables", icon: "🪑", end: false },
+    { path: "/admin/menu", label: "Menu Editor", icon: "📝", end: false },
+    { path: "/admin/analytics", label: "Sales Analytics", icon: "📈", end: false },
   ];
+
 
   return (
     <aside className="sidebar" id="admin-sidebar">
       {/* Connection Status Indicator */}
-      <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+      <div
+        className={`connection-status ${isConnected ? "connected" : "disconnected"}`}
+      >
         <span className="status-dot"></span>
         <span className="status-text">
-          {isConnected ? 'Live' : 'Connecting…'}
+          {isConnected ? "Live" : "Connecting…"}
         </span>
       </div>
 
@@ -29,7 +33,7 @@ export default function Sidebar() {
         <div className="sidebar-logo">
           <span className="logo-icon">☕</span>
           <div className="logo-text">
-            <span className="logo-yeog">Yeog</span>
+            <span className="logo-yoeg">yoeg</span>
             <span className="logo-cafe">Cafe</span>
           </div>
         </div>
@@ -43,7 +47,7 @@ export default function Sidebar() {
             to={link.path}
             end={link.end}
             className={({ isActive }) =>
-              `sidebar-link ${isActive ? 'active' : ''}`
+              `sidebar-link ${isActive ? "active" : ""}`
             }
           >
             <span className="sidebar-link-icon">{link.icon}</span>
@@ -53,10 +57,16 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        <button 
-          className="sidebar-link sidebar-link-back" 
+        <button
+          className="sidebar-link sidebar-link-back"
           onClick={() => setIsPasswordModalOpen(true)}
-          style={{ width: '100%', border: 'none', background: 'transparent', textAlign: 'left', cursor: 'pointer' }}
+          style={{
+            width: "100%",
+            border: "none",
+            background: "transparent",
+            textAlign: "left",
+            cursor: "pointer",
+          }}
         >
           <span className="sidebar-link-icon">🔑</span>
           <span className="sidebar-link-label">Change Password</span>
@@ -67,9 +77,9 @@ export default function Sidebar() {
         </NavLink>
       </div>
 
-      <ChangePasswordModal 
-        isOpen={isPasswordModalOpen} 
-        onClose={() => setIsPasswordModalOpen(false)} 
+      <ChangePasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
       />
     </aside>
   );

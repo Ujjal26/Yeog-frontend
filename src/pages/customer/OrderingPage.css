@@ -180,7 +180,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: var(--color-text-light);
+  color: var(--color-text);
 }
 
 .current-order-item .item-qty {

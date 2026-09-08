@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useTableSocket } from '../../context/TableSocketContext';
-import { useMenu } from '../../context/MenuContext';
-import { useCart } from '../../context/CartContext';
-import Navbar from '../../components/common/Navbar';
-import MenuCategory from '../../components/customer/MenuCategory';
-import CartSummary from '../../components/customer/CartSummary';
-import { useOrders } from '../../context/OrderContext';
-import './OrderingPage.css';
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { useTableSocket } from "../../context/TableSocketContext";
+import { useMenu } from "../../context/MenuContext";
+import { useCart } from "../../context/CartContext";
+import Navbar from "../../components/common/Navbar";
+import MenuCategory from "../../components/customer/MenuCategory";
+import CartSummary from "../../components/customer/CartSummary";
+import { useOrders } from "../../context/OrderContext";
+import "./OrderingPage.css";
 
 export default function OrderingPage() {
   const [searchParams] = useSearchParams();
-  const urlTableNumber = searchParams.get('table');
-  const urlToken = searchParams.get('token');
-  
+  const urlTableNumber = searchParams.get("table");
+  const urlToken = searchParams.get("token");
+
   const [isVerifying, setIsVerifying] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   const { menuItems, menuCategories } = useMenu();
   const { tableNumber, setTable, clearCart } = useCart();
@@ -26,27 +26,30 @@ export default function OrderingPage() {
   const { socket, isConnected } = useTableSocket();
 
   useEffect(() => {
-    const sessionToken = sessionStorage.getItem('yeog_customer_token');
-    
+    const sessionToken = sessionStorage.getItem("yoeg_customer_token");
+
     if (sessionToken) {
       try {
         // Decode JWT payload (basic frontend decode)
-        const payload = JSON.parse(atob(sessionToken.split('.')[1]));
-        
+        const payload = JSON.parse(atob(sessionToken.split(".")[1]));
+
         // Ensure they are strictly assigned to their locked table
         setTable(payload.tableNumber);
-        
+
         // If they manually tampered with the URL parameter, strip it or correct it
-        if (urlTableNumber && parseInt(urlTableNumber, 10) !== payload.tableNumber) {
-          navigate('/order', { replace: true });
+        if (
+          urlTableNumber &&
+          parseInt(urlTableNumber, 10) !== payload.tableNumber
+        ) {
+          navigate("/order", { replace: true });
         } else if (urlToken) {
-          navigate('/order', { replace: true });
+          navigate("/order", { replace: true });
         }
-        
+
         setIsVerifying(false);
       } catch (err) {
         // Corrupted token, force re-verify
-        sessionStorage.removeItem('yeog_customer_token');
+        sessionStorage.removeItem("yoeg_customer_token");
         verifyNewScan();
       }
     } else {
@@ -55,36 +58,42 @@ export default function OrderingPage() {
 
     async function verifyNewScan() {
       if (!urlTableNumber || !urlToken) {
-        setErrorMsg('Invalid QR Code. Please scan the QR code on your table.');
+        setErrorMsg("Invalid QR Code. Please scan the QR code on your table.");
         setIsVerifying(false);
         return;
       }
-      
+
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/tables/validate-qr`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tableNumber: urlTableNumber, qrToken: urlToken })
-        });
-        
+        const res = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/tables/validate-qr`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              tableNumber: urlTableNumber,
+              qrToken: urlToken,
+            }),
+          },
+        );
+
         const data = await res.json();
         if (res.ok) {
-          sessionStorage.setItem('yeog_customer_token', data.token);
+          sessionStorage.setItem("yoeg_customer_token", data.token);
           setTable(parseInt(urlTableNumber, 10));
           // Strip the secret token from the URL so it can't be easily copied by onlookers
-          navigate('/order', { replace: true });
+          navigate("/order", { replace: true });
         } else {
-          setErrorMsg(data.message || 'Invalid or Expired QR Code.');
+          setErrorMsg(data.message || "Invalid or Expired QR Code.");
         }
       } catch (err) {
-        setErrorMsg('Network error verifying QR code.');
+        setErrorMsg("Network error verifying QR code.");
       }
       setIsVerifying(false);
     }
   }, [urlTableNumber, urlToken, navigate, setTable]);
 
   const currentTableOrders = orders.filter(
-    (o) => o.tableNumber === parseInt(tableNumber, 10)
+    (o) => o.tableNumber === parseInt(tableNumber, 10),
   );
 
   const scrollToCategory = (category) => {
@@ -92,7 +101,7 @@ export default function OrderingPage() {
     if (el) {
       const navHeight = 130;
       const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
-      window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
@@ -114,7 +123,7 @@ export default function OrderingPage() {
         <div className="no-table-message container">
           <div className="no-table-card glass">
             <span className="no-table-icon">🔒</span>
-            <h2>{errorMsg || 'Please scan a valid table QR code'}</h2>
+            <h2>{errorMsg || "Please scan a valid table QR code"}</h2>
           </div>
         </div>
       </div>
@@ -126,10 +135,12 @@ export default function OrderingPage() {
       <Navbar variant="customer" tableNumber={tableNumber} />
 
       {/* Connection Status Indicator */}
-      <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+      <div
+        className={`connection-status ${isConnected ? "connected" : "disconnected"}`}
+      >
         <span className="status-dot"></span>
         <span className="status-text">
-          {isConnected ? 'Live' : 'Connecting…'}
+          {isConnected ? "Live" : "Connecting…"}
         </span>
       </div>
 
@@ -142,9 +153,9 @@ export default function OrderingPage() {
               className="category-pill"
               onClick={() => scrollToCategory(cat)}
             >
-              {cat === 'Snacks' && '🍟 '}
-              {cat === 'Beverages' && '☕ '}
-              {cat === 'Pastries' && '🍰 '}
+              {cat === "Snacks" && "🍟 "}
+              {cat === "Beverages" && "☕ "}
+              {cat === "Pastries" && "🍰 "}
               {cat}
             </button>
           ))}
@@ -163,7 +174,9 @@ export default function OrderingPage() {
               <div key={order.id} className="current-order-card card">
                 <div className="current-order-card-header">
                   <span className="order-id">Order {order.id}</span>
-                  <span className={`order-status badge badge-${order.status.toLowerCase()}`}>
+                  <span
+                    className={`order-status badge badge-${order.status.toLowerCase()}`}
+                  >
                     {order.status}
                   </span>
                 </div>
@@ -175,12 +188,12 @@ export default function OrderingPage() {
                     </div>
                   ))}
                 </div>
-                <div className='current-order-card-footer'>
+                <div className="current-order-card-footer">
                   <span className="order-total">
                     Total: <strong>₹ {order.total}</strong>
                   </span>
                 </div>
-              </div> 
+              </div>
             ))}
           </div>
         </div>
@@ -189,17 +202,47 @@ export default function OrderingPage() {
       {/* Menu Sections */}
       <main className="ordering-main container">
         {menuItems.length === 0 ? (
-          <div style={{ padding: '4rem 1rem', display: 'flex', justifyContent: 'center' }}>
-            <div className="no-table-card glass" style={{ width: '100%', maxWidth: '400px', textAlign: 'center', padding: '3rem 2rem' }}>
-              <span className="no-table-icon" style={{ fontSize: '4rem', display: 'block', marginBottom: '1rem' }}>🍽️</span>
+          <div
+            style={{
+              padding: "4rem 1rem",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              className="no-table-card glass"
+              style={{
+                width: "100%",
+                maxWidth: "400px",
+                textAlign: "center",
+                padding: "3rem 2rem",
+              }}
+            >
+              <span
+                className="no-table-icon"
+                style={{
+                  fontSize: "4rem",
+                  display: "block",
+                  marginBottom: "1rem",
+                }}
+              >
+                🍽️
+              </span>
               <h2>No items in the menu currently</h2>
-              <p style={{ color: 'var(--color-text-light)', marginTop: '0.5rem' }}>Our menu is being updated. Please check back shortly!</p>
+              <p
+                style={{
+                  color: "var(--color-text-light)",
+                  marginTop: "0.5rem",
+                }}
+              >
+                Our menu is being updated. Please check back shortly!
+              </p>
             </div>
           </div>
         ) : (
           menuCategories.map((category) => {
             const categoryItems = menuItems.filter(
-              (item) => item.category === category
+              (item) => item.category === category,
             );
             return (
               <MenuCategory

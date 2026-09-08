@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import { useState, useEffect } from 'react';
-import { useSocket } from '../../context/SocketContext';
-import Navbar from '../../components/common/Navbar';
-import Sidebar from '../../components/admin/Sidebar';
-import AddTableModal from '../../components/admin/AddTableModal';
-import { QRCodeCanvas } from 'qrcode.react';
-import './TableManagementPage.css';
+import { useState, useEffect } from "react";
+import { useSocket } from "../../context/SocketContext";
+import Navbar from "../../components/common/Navbar";
+import Sidebar from "../../components/admin/Sidebar";
+import AddTableModal from "../../components/admin/AddTableModal";
+import { QRCodeCanvas } from "qrcode.react";
+import "./TableManagementPage.css";
 
-const API_URL = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/tables`;
+const API_URL = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/tables`;
 
 export default function TableManagementPage() {
   const [tables, setTables] = useState([]);
   const [isAddTableModalOpen, setIsAddTableModalOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { socket } = useSocket();
 
   const fetchTables = async () => {
@@ -24,7 +24,7 @@ export default function TableManagementPage() {
         setTables(data);
       }
     } catch (err) {
-      console.error('Failed to fetch tables:', err);
+      console.error("Failed to fetch tables:", err);
     }
   };
 
@@ -39,86 +39,88 @@ export default function TableManagementPage() {
     const handleActiveTables = (activeTableNumbers) => {
       setTables((prev) =>
         prev.map((t) => {
-          if (t.status === 'closed') return t;
+          if (t.status === "closed") return t;
           if (activeTableNumbers.includes(t.number)) {
-            return { ...t, status: 'active' };
+            return { ...t, status: "active" };
           }
-          if (t.status === 'active') {
-            return { ...t, status: 'available' };
+          if (t.status === "active") {
+            return { ...t, status: "available" };
           }
           return t;
-        })
+        }),
       );
     };
 
     const handleNewTable = (data) => {
       setTables((prev) =>
         prev.map((t) =>
-          t.number === parseInt(data.tableId, 10) && t.status !== 'closed'
-            ? { ...t, status: 'active' }
-            : t
-        )
+          t.number === parseInt(data.tableId, 10) && t.status !== "closed"
+            ? { ...t, status: "active" }
+            : t,
+        ),
       );
     };
 
     const handleTableClosed = (tableNumber) => {
       setTables((prev) =>
         prev.map((t) =>
-          t.number === parseInt(tableNumber, 10) && t.status !== 'closed'
-            ? { ...t, status: 'available' }
-            : t
-        )
+          t.number === parseInt(tableNumber, 10) && t.status !== "closed"
+            ? { ...t, status: "available" }
+            : t,
+        ),
       );
     };
 
-    socket.on('active_tables', handleActiveTables);
-    socket.on('new_table_joined', handleNewTable);
-    socket.on('table_closed', handleTableClosed);
+    socket.on("active_tables", handleActiveTables);
+    socket.on("new_table_joined", handleNewTable);
+    socket.on("table_closed", handleTableClosed);
 
     return () => {
-      socket.off('active_tables', handleActiveTables);
-      socket.off('new_table_joined', handleNewTable);
-      socket.off('table_closed', handleTableClosed);
+      socket.off("active_tables", handleActiveTables);
+      socket.off("new_table_joined", handleNewTable);
+      socket.off("table_closed", handleTableClosed);
     };
   }, [socket]);
 
   const handleToggleStatus = async (tableId, currentStatus) => {
     // If the table is active, prevent closing it entirely in the UI first.
-    if (currentStatus === 'active') {
-      setError('Cannot close a table that is currently active with customers.');
-      setTimeout(() => setError(''), 4000);
+    if (currentStatus === "active") {
+      setError("Cannot close a table that is currently active with customers.");
+      setTimeout(() => setError(""), 4000);
       return;
     }
 
-    const newStatus = currentStatus === 'closed' ? 'available' : 'closed';
+    const newStatus = currentStatus === "closed" ? "available" : "closed";
     setIsUpdating(true);
-    setError('');
+    setError("");
 
     try {
-      const token = sessionStorage.getItem('yeog_admin_token');
+      const token = sessionStorage.getItem("yoeg_admin_token");
       const response = await fetch(`${API_URL}/${tableId}/toggle-status`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: newStatus }),
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         setTables((prev) =>
-          prev.map((t) => (t._id === tableId ? { ...t, status: newStatus } : t))
+          prev.map((t) =>
+            t._id === tableId ? { ...t, status: newStatus } : t,
+          ),
         );
       } else {
-        setError(data.message || 'Failed to update table status');
-        setTimeout(() => setError(''), 4000);
+        setError(data.message || "Failed to update table status");
+        setTimeout(() => setError(""), 4000);
       }
     } catch (err) {
-      console.error('Toggle status error:', err);
-      setError('Server error while toggling status');
-      setTimeout(() => setError(''), 4000);
+      console.error("Toggle status error:", err);
+      setError("Server error while toggling status");
+      setTimeout(() => setError(""), 4000);
     } finally {
       setIsUpdating(false);
     }
@@ -126,14 +128,15 @@ export default function TableManagementPage() {
 
   const copyQRLink = (tableNumber, qrToken) => {
     const url = `${window.location.origin}/order?table=${tableNumber}&token=${qrToken}`;
-    navigator.clipboard.writeText(url)
+    navigator.clipboard
+      .writeText(url)
       .then(() => {
         // Optional: show a toast or alert
         alert(`Secure QR Link for Table ${tableNumber} copied to clipboard!`);
       })
       .catch((err) => {
-        console.error('Failed to copy link', err);
-        alert('Failed to copy link');
+        console.error("Failed to copy link", err);
+        alert("Failed to copy link");
       });
   };
 
@@ -141,9 +144,9 @@ export default function TableManagementPage() {
     const canvas = document.getElementById(`qr-table-${tableNumber}`);
     if (canvas) {
       const pngUrl = canvas
-        .toDataURL('image/png')
-        .replace('image/png', 'image/octet-stream');
-      let downloadLink = document.createElement('a');
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      let downloadLink = document.createElement("a");
       downloadLink.href = pngUrl;
       downloadLink.download = `Table_${tableNumber}_QRCode.png`;
       document.body.appendChild(downloadLink);
@@ -161,12 +164,19 @@ export default function TableManagementPage() {
       <div className="admin-layout">
         <Sidebar />
         <main className="admin-main">
-          <div className="admin-header animate-slideDown" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            className="admin-header animate-slideDown"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <div>
               <h1>Table Management</h1>
               <p>Add new tables or temporarily close existing ones.</p>
             </div>
-            <button 
+            <button
               className="btn btn-primary"
               onClick={() => setIsAddTableModalOpen(true)}
             >
@@ -174,30 +184,57 @@ export default function TableManagementPage() {
             </button>
           </div>
 
-          {error && <div className="toast toast-error animate-slideUp">{error}</div>}
+          {error && (
+            <div className="toast toast-error animate-slideUp">{error}</div>
+          )}
 
           <div className="table-management-list animate-slideUp stagger-1">
             {tables.map((table) => {
-              const isClosed = table.status === 'closed';
-              const isActive = table.status === 'active';
+              const isClosed = table.status === "closed";
+              const isActive = table.status === "active";
               return (
                 <div key={table._id} className="table-management-card card">
-                  <div className="table-info" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <div style={{ background: '#fff', padding: '5px', borderRadius: '8px', cursor: 'pointer' }} onClick={() => downloadQR(table.number)} title="Click to download QR Code">
-                      <QRCodeCanvas 
+                  <div
+                    className="table-info"
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#fff",
+                        padding: "5px",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => downloadQR(table.number)}
+                      title="Click to download QR Code"
+                    >
+                      <QRCodeCanvas
                         id={`qr-table-${table.number}`}
-                        value={`${window.location.origin}/order?table=${table.number}&token=${table.qrToken}`} 
-                        size={64} 
+                        value={`${window.location.origin}/order?table=${table.number}&token=${table.qrToken}`}
+                        size={64}
                       />
                     </div>
                     <div>
                       <h3>Table {table.number}</h3>
-                      <span className={`badge ${isClosed ? 'badge-neutral' : isActive ? 'badge-warning badge-dot' : 'badge-success'}`}>
-                        {isActive ? 'Live' : table.status}
+                      <span
+                        className={`badge ${isClosed ? "badge-neutral" : isActive ? "badge-warning badge-dot" : "badge-success"}`}
+                      >
+                        {isActive ? "Live" : table.status}
                       </span>
                     </div>
                   </div>
-                  <div className="table-actions" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div
+                    className="table-actions"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
                     <button
                       className="btn btn-sm btn-ghost"
                       onClick={() => downloadQR(table.number)}
@@ -213,12 +250,14 @@ export default function TableManagementPage() {
                       🔗 Copy QR Link
                     </button>
                     <button
-                      className={`btn btn-sm ${isClosed ? 'btn-primary' : 'btn-ghost'}`}
-                      onClick={() => handleToggleStatus(table._id, table.status)}
+                      className={`btn btn-sm ${isClosed ? "btn-primary" : "btn-ghost"}`}
+                      onClick={() =>
+                        handleToggleStatus(table._id, table.status)
+                      }
                       disabled={isUpdating || isActive}
                       title={isActive ? "Cannot close an active table" : ""}
                     >
-                      {isClosed ? 'Re-open Table' : 'Close Temporarily'}
+                      {isClosed ? "Re-open Table" : "Close Temporarily"}
                     </button>
                   </div>
                 </div>

@@ -16,6 +16,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import LiveOrdersPage from './pages/admin/LiveOrdersPage';
 import MenuEditorPage from './pages/admin/MenuEditorPage';
 import TableManagementPage from './pages/admin/TableManagementPage';
+import SalesAnalysisPage from './pages/admin/SalesAnalysisPage';
 
 import './App.css';
 
@@ -73,11 +74,22 @@ function App() {
                 </AdminGate>
               }
             />
+            <Route
+              path="/admin/analytics"
+              element={
+                <AdminGate>
+                  <SocketProvider>
+                    <SalesAnalysisPage />
+                  </SocketProvider>
+                </AdminGate>
+              }
+            />
           </Routes>
         </CartProvider>
       </OrderProvider>
     </MenuProvider>
   );
 }
+
 
 export default App;

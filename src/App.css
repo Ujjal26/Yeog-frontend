@@ -1,5 +1,5 @@
 /* ============================================================
-   YEOG CAFE — Global Design System
+   yoeg CAFE — Global Design System
    ============================================================ */
 
 /* --- Design Tokens --- */
@@ -36,8 +36,8 @@
   --color-border: #e8e0d8;
 
   /* Typography */
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
 
   /* Border Radius */
   --radius-xs: 4px;
@@ -84,7 +84,12 @@
    GLOBAL TYPOGRAPHY
    ============================================================ */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--color-primary);
   line-height: 1.2;
@@ -155,7 +160,11 @@ p {
 .section-title .decorative-line {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    var(--color-accent-light)
+  );
   border-radius: 2px;
   margin: var(--space-md) auto 0;
 }
@@ -183,10 +192,10 @@ p {
 }
 
 .btn::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent);
   opacity: 0;
   transition: var(--transition-fast);
 }
@@ -339,7 +348,7 @@ p {
 }
 
 .badge-dot::before {
-  content: '';
+  content: "";
   width: 6px;
   height: 6px;
   border-radius: var(--radius-full);
@@ -394,7 +403,7 @@ p {
 }
 
 .toggle-slider::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 20px;
   width: 20px;
@@ -451,8 +460,12 @@ p {
    ============================================================ */
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -500,38 +513,79 @@ p {
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-8px) rotate(1deg); }
-  66% { transform: translateY(-4px) rotate(-1deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
 }
 
-.animate-fadeIn { animation: fadeIn 0.5s ease-out; }
-.animate-slideUp { animation: slideUp 0.5s ease-out; }
-.animate-slideDown { animation: slideDown 0.5s ease-out; }
-.animate-scaleIn { animation: scaleIn 0.3s ease-out; }
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+.animate-slideDown {
+  animation: slideDown 0.5s ease-out;
+}
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out;
+}
 
 /* Stagger animation helper */
-.stagger-1 { animation-delay: 0.05s; }
-.stagger-2 { animation-delay: 0.1s; }
-.stagger-3 { animation-delay: 0.15s; }
-.stagger-4 { animation-delay: 0.2s; }
-.stagger-5 { animation-delay: 0.25s; }
-.stagger-6 { animation-delay: 0.3s; }
+.stagger-1 {
+  animation-delay: 0.05s;
+}
+.stagger-2 {
+  animation-delay: 0.1s;
+}
+.stagger-3 {
+  animation-delay: 0.15s;
+}
+.stagger-4 {
+  animation-delay: 0.2s;
+}
+.stagger-5 {
+  animation-delay: 0.25s;
+}
+.stagger-6 {
+  animation-delay: 0.3s;
+}
 
 /* ============================================================
    OVERLAY & MODAL BACKDROPS
@@ -555,22 +609,34 @@ p {
   gap: var(--space-lg);
 }
 
-.grid-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 @media (max-width: 1024px) {
-  .grid-4 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .grid-2, .grid-3, .grid-4 {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
-  .grid-2, .grid-3, .grid-4 {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
     grid-template-columns: 1fr;
   }
 }
@@ -590,30 +656,69 @@ p {
    TEXT UTILITIES
    ============================================================ */
 
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-.text-primary { color: var(--color-primary); }
-.text-accent { color: var(--color-accent); }
-.text-muted { color: var(--color-text-muted); }
-.text-error { color: var(--color-error); }
-.text-success { color: var(--color-success); }
-.font-heading { font-family: var(--font-heading); }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.text-error {
+  color: var(--color-error);
+}
+.text-success {
+  color: var(--color-success);
+}
+.font-heading {
+  font-family: var(--font-heading);
+}
 
 /* ============================================================
    LAYOUT HELPERS
    ============================================================ */
 
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.flex-center { align-items: center; justify-content: center; }
-.flex-between { justify-content: space-between; }
-.flex-wrap { flex-wrap: wrap; }
-.gap-xs { gap: var(--space-xs); }
-.gap-sm { gap: var(--space-sm); }
-.gap-md { gap: var(--space-md); }
-.gap-lg { gap: var(--space-lg); }
-.gap-xl { gap: var(--space-xl); }
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+.flex-between {
+  justify-content: space-between;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.gap-xs {
+  gap: var(--space-xs);
+}
+.gap-sm {
+  gap: var(--space-sm);
+}
+.gap-md {
+  gap: var(--space-md);
+}
+.gap-lg {
+  gap: var(--space-lg);
+}
+.gap-xl {
+  gap: var(--space-xl);
+}
 
 /* ============================================================
    ADMIN LAYOUT
@@ -678,7 +783,7 @@ p {
   letter-spacing: 0.03em;
   text-transform: uppercase;
   position: fixed;
-  top: 14px;
+  top: 4px;
   right: 14px;
   z-index: calc(var(--z-sticky, 100) + 10);
   backdrop-filter: blur(12px);
@@ -716,6 +821,11 @@ p {
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }

@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import Modal from '../common/Modal';
-import './AddTableModal.css';
+import { useState } from "react";
+import Modal from "../common/Modal";
+import "./AddTableModal.css";
 
-const API_URL = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/tables`;
+const API_URL = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/tables`;
 
 export default function AddTableModal({ isOpen, onClose, onTableAdded }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleAddTable = async () => {
     setIsLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
-      const token = sessionStorage.getItem('yeog_admin_token');
+      const token = sessionStorage.getItem("yoeg_admin_token");
       const response = await fetch(API_URL, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
@@ -28,11 +28,11 @@ export default function AddTableModal({ isOpen, onClose, onTableAdded }) {
         onTableAdded(data.table);
         onClose();
       } else {
-        setError(data.message || 'Failed to add table');
+        setError(data.message || "Failed to add table");
       }
     } catch (err) {
-      console.error('Add table error:', err);
-      setError('Server error. Please try again later.');
+      console.error("Add table error:", err);
+      setError("Server error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -43,10 +43,15 @@ export default function AddTableModal({ isOpen, onClose, onTableAdded }) {
       <div className="add-table-content">
         <div className="add-table-icon">🪑</div>
         <p className="add-table-desc">
-          Are you sure you want to add a new table? The next available number will be assigned automatically.
+          Are you sure you want to add a new table? The next available number
+          will be assigned automatically.
         </p>
 
-        {error && <div className="error-message" style={{ marginTop: '1rem' }}>{error}</div>}
+        {error && (
+          <div className="error-message" style={{ marginTop: "1rem" }}>
+            {error}
+          </div>
+        )}
 
         <div className="modal-actions">
           <button
@@ -63,7 +68,7 @@ export default function AddTableModal({ isOpen, onClose, onTableAdded }) {
             onClick={handleAddTable}
             disabled={isLoading}
           >
-            {isLoading ? 'Adding...' : 'Confirm'}
+            {isLoading ? "Adding..." : "Confirm"}
           </button>
         </div>
       </div>

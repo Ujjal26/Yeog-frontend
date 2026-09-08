@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { parseTableParams, isValidTableAccess } from '../../utils/urlParser';
-import Modal from '../../components/common/Modal';
-import Navbar from '../../components/common/Navbar';
-import Footer from '../../components/common/Footer';
-import './LandingPage.css';
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { parseTableParams, isValidTableAccess } from "../../utils/urlParser";
+import Modal from "../../components/common/Modal";
+import Navbar from "../../components/common/Navbar";
+import Footer from "../../components/common/Footer";
+import "./LandingPage.css";
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [errorModal, setErrorModal] = useState({ open: false, message: '' });
+  const [errorModal, setErrorModal] = useState({ open: false, message: "" });
   const [tableModal, setTableModal] = useState(false);
 
   const handleOrderNow = () => {
@@ -26,8 +26,6 @@ export default function LandingPage() {
       setErrorModal({ open: true, message: validation.error });
     }
   };
-
-
 
   return (
     <div className="landing-page">
@@ -46,11 +44,11 @@ export default function LandingPage() {
           <span className="hero-badge">Est. 2024 · Artisan Café</span>
           <h1 className="hero-title">
             Welcome to <br />
-            <span className="hero-brand">Yeog Cafe</span>
+            <span className="hero-brand">yoeg Cafe</span>
           </h1>
           <p className="hero-subtitle">
-            Where every sip tells a story. Fresh brews, artisan pastries, 
-            and a cozy atmosphere crafted just for you.
+            Where every sip tells a story. Fresh brews, artisan pastries, and a
+            cozy atmosphere crafted just for you.
           </p>
           <div className="hero-actions">
             <button
@@ -85,19 +83,22 @@ export default function LandingPage() {
             <div className="story-text-col">
               <div className="section-title text-left">
                 <h2>Our Story</h2>
-                <div className="decorative-line" style={{ margin: 'var(--space-md) 0 0' }}></div>
+                <div
+                  className="decorative-line"
+                  style={{ margin: "var(--space-md) 0 0" }}
+                ></div>
               </div>
               <p className="story-text">
-                Yeog Cafe was born from a simple belief: that the best moments 
-                in life happen over a great cup of coffee. Nestled in the heart 
-                of the city, we've been serving handcrafted beverages and fresh 
+                yoeg Cafe was born from a simple belief: that the best moments
+                in life happen over a great cup of coffee. Nestled in the heart
+                of the city, we've been serving handcrafted beverages and fresh
                 pastries since 2024.
               </p>
               <p className="story-text">
-                Every bean is ethically sourced, every pastry baked fresh daily, 
-                and every moment in our space designed to feel like home. Whether 
-                you're here for a quick espresso or a leisurely afternoon, we're 
-                here to make it memorable.
+                Every bean is ethically sourced, every pastry baked fresh daily,
+                and every moment in our space designed to feel like home.
+                Whether you're here for a quick espresso or a leisurely
+                afternoon, we're here to make it memorable.
               </p>
               <div className="story-stats">
                 <div className="stat-item">
@@ -165,12 +166,13 @@ export default function LandingPage() {
         <div className="table-selector-content">
           <div className="qr-prompt-icon">📱</div>
           <p className="table-selector-desc">
-            No QR code detected. Please scan the QR on your table number to continue ordering.
+            No QR code detected. Please scan the QR on your table number to
+            continue ordering.
           </p>
           <button
             className="btn btn-primary"
             onClick={() => setTableModal(false)}
-            style={{ marginTop: 'var(--space-md)', width: '100%' }}
+            style={{ marginTop: "var(--space-md)", width: "100%" }}
           >
             Got It
           </button>
@@ -180,7 +182,7 @@ export default function LandingPage() {
       {/* Error Modal (for invalid status etc.) */}
       <Modal
         isOpen={errorModal.open}
-        onClose={() => setErrorModal({ open: false, message: '' })}
+        onClose={() => setErrorModal({ open: false, message: "" })}
         title="Cannot Place Order"
         size="small"
       >
@@ -189,8 +191,8 @@ export default function LandingPage() {
           <p>{errorModal.message}</p>
           <button
             className="btn btn-primary"
-            onClick={() => setErrorModal({ open: false, message: '' })}
-            style={{ marginTop: 'var(--space-md)', width: '100%' }}
+            onClick={() => setErrorModal({ open: false, message: "" })}
+            style={{ marginTop: "var(--space-md)", width: "100%" }}
           >
             Got It
           </button>

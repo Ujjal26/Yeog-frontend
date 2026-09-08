@@ -33,6 +33,7 @@ export default function CheckoutPage() {
       total: total,
     };
 
+
     addOrder(order);
     setOrderId(newOrderId);
     setSuccessModal(true);

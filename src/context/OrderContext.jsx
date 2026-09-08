@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+} from "react";
 
 const OrderContext = createContext(null);
 
@@ -9,20 +16,25 @@ export function OrderProvider({ children }) {
 
   const fetchOrders = useCallback(async () => {
     try {
-      const token = sessionStorage.getItem('yeog_admin_token') || sessionStorage.getItem('yeog_customer_token');
+      const token =
+        sessionStorage.getItem("yoeg_admin_token") ||
+        sessionStorage.getItem("yoeg_customer_token");
       if (!token) return;
 
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/orders`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/orders`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       if (res.ok) {
         const data = await res.json();
         setOrders(data);
       }
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
     }
   }, []);
 
@@ -37,8 +49,8 @@ export function OrderProvider({ children }) {
   const updateOrderStatus = useCallback((orderId, newStatus) => {
     setOrders((prev) =>
       prev.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
+        order.id === orderId ? { ...order, status: newStatus } : order,
+      ),
     );
   }, []);
 
@@ -48,7 +60,7 @@ export function OrderProvider({ children }) {
 
   const getOrdersByStatus = useCallback(
     (status) => orders.filter((order) => order.status === status),
-    [orders]
+    [orders],
   );
 
   const value = useMemo(
@@ -60,7 +72,14 @@ export function OrderProvider({ children }) {
       getOrdersByStatus,
       fetchOrders,
     }),
-    [orders, addOrder, updateOrderStatus, removeOrder, getOrdersByStatus, fetchOrders]
+    [
+      orders,
+      addOrder,
+      updateOrderStatus,
+      removeOrder,
+      getOrdersByStatus,
+      fetchOrders,
+    ],
   );
 
   return (
@@ -71,7 +90,7 @@ export function OrderProvider({ children }) {
 export function useOrders() {
   const context = useContext(OrderContext);
   if (!context) {
-    throw new Error('useOrders must be used within an OrderProvider');
+    throw new Error("useOrders must be used within an OrderProvider");
   }
   return context;
 }
