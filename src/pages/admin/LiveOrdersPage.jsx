@@ -68,7 +68,7 @@ export default function LiveOrdersPage() {
               <p>Track and manage incoming orders in real-time.</p>
             </div>
             <div className="orders-total-badge">
-              <span className="badge badge-primary badge-dot">
+              <span className="badge badge-primary badge-dot" style={{ marginTop: "1rem" }}>
                 {orders.length} total orders
               </span>
             </div>
