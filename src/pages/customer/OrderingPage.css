@@ -208,3 +208,20 @@
   font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
 }
+
+/* Ultra-small Mobile (e.g., Galaxy S8, old iPhones at 360px/375px) */
+@media (max-width: 380px) {
+  .ordering-grid {
+    gap: var(--space-sm);
+  }
+  .category-nav-inner {
+    gap: var(--space-xs);
+  }
+  .category-pill {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+  .current-order-card {
+    padding: var(--space-sm) var(--space-md);
+  }
+}

@@ -153,3 +153,29 @@
     font-size: 1.2rem;
   }
 }
+
+/* Ultra-small Mobile (e.g., Galaxy S8, old iPhones at 360px/375px) */
+@media (max-width: 380px) {
+  .navbar-inner {
+    padding: 0 var(--space-xs);
+  }
+
+  .logo-text {
+    font-size: 1.05rem;
+    padding: 2px 4px;
+  }
+
+  .footer-address {
+    display: none; /* Hide address on ultra small screens to prevent overflow */
+  }
+
+  .table-indicator {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    gap: 4px;
+  }
+
+  .navbar-link {
+    padding: 4px 6px;
+  }
+}

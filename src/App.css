@@ -852,3 +852,22 @@ p {
     opacity: 0.3;
   }
 }
+
+/* Ultra-small Mobile (e.g., Galaxy S8, old iPhones at 360px/375px) */
+@media (max-width: 380px) {
+  :root {
+    --space-lg: 20px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
+  }
+  
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .container {
+    padding: 0 var(--space-md);
+  }
+}

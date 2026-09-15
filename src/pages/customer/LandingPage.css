@@ -650,3 +650,41 @@
     font-size: 1.1rem;
   }
 }
+
+/* Ultra-small Mobile (e.g., Galaxy S8, old iPhones at 360px/375px) */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+  .story-image {
+    height: 220px;
+  }
+  .stat-number {
+    font-size: 1.2rem;
+  }
+  .hours-grid {
+    gap: var(--space-md);
+  }
+  .hours-card {
+    padding: var(--space-md);
+  }
+  .cafe-interior-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
+  }
+  .cafe-interior-card:nth-child(1) {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .menu-preview-card {
+    flex: 0 0 180px;
+    height: 280px;
+  }
+  .menu-preview-card-text {
+    font-size: 0.95rem;
+    padding: var(--space-md) var(--space-sm) var(--space-sm);
+  }
+}
