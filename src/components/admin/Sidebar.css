@@ -1,7 +1,13 @@
+/* ============================================================
+   ADMIN SIDEBAR — Dark Teal Theme (matches landing page)
+   ============================================================ */
+
 .sidebar {
   width: 250px;
-  background: var(--color-white);
-  border-right: 1px solid var(--color-border);
+  background: rgba(7, 24, 32, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   padding: var(--space-lg) 0;
@@ -13,7 +19,7 @@
 
 .sidebar-header {
   padding: 0 var(--space-lg) var(--space-xl);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,32 +31,20 @@
   gap: var(--space-sm);
 }
 
-.sidebar-logo .logo-icon {
-  font-size: 1.5rem;
-}
-
-.sidebar-logo .logo-text {
+.logo-text-sidebar {
   display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.sidebar-logo .logo-yoeg {
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
+  align-items: baseline;
+  gap: 4px;
+  font-family: "Bauhaus 93", "Bauhaus93", Impact, "Arial Black", sans-serif;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: var(--color-primary);
-}
-
-.sidebar-logo .logo-cafe {
-  font-family: var(--font-heading);
-  font-size: 0.8rem;
-  font-style: italic;
-  color: var(--color-accent);
+  text-transform: uppercase;
+  color: #e70c0ce3;
 }
 
 .sidebar-badge {
   font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Nav links */
@@ -70,20 +64,20 @@
   border-radius: var(--radius-md);
   font-size: 0.92rem;
   font-weight: 500;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.6);
   transition: var(--transition);
   text-decoration: none;
   position: relative;
 }
 
 .sidebar-link:hover {
-  background: var(--color-bg-alt);
-  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .sidebar-link.active {
-  background: rgba(23, 66, 5, 0.08);
-  color: var(--color-primary);
+  background: rgba(138, 2, 2, 0.2);
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -94,8 +88,9 @@
   top: 8px;
   bottom: 8px;
   width: 3px;
-  background: var(--color-primary);
+  background: #8a0202;
   border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 12px rgba(138, 2, 2, 0.6);
 }
 
 .sidebar-link-icon {
@@ -107,11 +102,11 @@
 /* Footer */
 .sidebar-footer {
   padding: var(--space-md) var(--space-sm);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-link-back {
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 0.85rem;
 }
 

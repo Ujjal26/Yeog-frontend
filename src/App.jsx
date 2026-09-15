@@ -5,6 +5,7 @@ import { MenuProvider } from './context/MenuContext';
 import { SocketProvider } from './context/SocketContext';
 import { TableSocketProvider } from './context/TableSocketContext';
 import AdminGate from './components/admin/AdminGate';
+import GlobalConnectionStatus from './components/admin/GlobalConnectionStatus';
 
 // Customer Pages
 import LandingPage from './pages/customer/LandingPage';
@@ -39,6 +40,7 @@ function App() {
               element={
                 <AdminGate>
                   <SocketProvider>
+                    <GlobalConnectionStatus />
                     <AdminDashboard />
                   </SocketProvider>
                 </AdminGate>
@@ -49,6 +51,7 @@ function App() {
               element={
                 <AdminGate>
                   <SocketProvider>
+                    <GlobalConnectionStatus />
                     <LiveOrdersPage />
                   </SocketProvider>
                 </AdminGate>
@@ -59,6 +62,7 @@ function App() {
               element={
                 <AdminGate>
                   <SocketProvider>
+                    <GlobalConnectionStatus />
                     <MenuEditorPage />
                   </SocketProvider>
                 </AdminGate>
@@ -69,6 +73,7 @@ function App() {
               element={
                 <AdminGate>
                   <SocketProvider>
+                    <GlobalConnectionStatus />
                     <TableManagementPage />
                   </SocketProvider>
                 </AdminGate>
@@ -79,6 +84,7 @@ function App() {
               element={
                 <AdminGate>
                   <SocketProvider>
+                    <GlobalConnectionStatus />
                     <SalesAnalysisPage />
                   </SocketProvider>
                 </AdminGate>

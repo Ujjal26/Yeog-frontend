@@ -1,18 +1,30 @@
 .navbar {
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   z-index: var(--z-sticky);
   padding: 0 var(--space-lg);
-  border-bottom: 1px solid rgba(232, 224, 216, 0.6);
+  background-color: var(--color-bg-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+}
+#main-navbar {
+  background-color: var(--color-bg-dark);
+  margin: 0%;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  overflow: hidden;
 }
 
 .navbar-inner {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
+  /* background-color: var(--color-bg-dark); */
 }
 
 .navbar-logo {
@@ -37,23 +49,22 @@
   display: flex;
   align-items: baseline;
   gap: 4px;
-}
-
-.logo-yoeg {
-  font-family: var(--font-heading);
+  font-family: "Bauhaus 93", "Bauhaus93", Impact, "Arial Black", sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #e70c0ce3;
+  white-space: nowrap;
+  
+  /* Background light effect */
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 30px;
+  box-shadow: 0 0 16px rgba(231, 12, 12, 0.2);
+  backdrop-filter: blur(6px);
 }
 
-.logo-cafe {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--color-accent);
-}
+
 
 /* Table indicator */
 .table-indicator {
@@ -61,12 +72,12 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 6px 16px;
-  background: rgba(23, 66, 5, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-xl);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-primary);
-  border: 1px solid rgba(23, 66, 5, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .table-dot {
@@ -91,19 +102,19 @@
   border-radius: var(--radius-md);
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.7);
   transition: var(--transition);
   text-decoration: none;
 }
 
 .navbar-link:hover {
-  background: rgba(23, 66, 5, 0.06);
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-white);
 }
 
 .navbar-link.active {
-  background: rgba(23, 66, 5, 0.1);
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-white);
   font-weight: 600;
 }
 

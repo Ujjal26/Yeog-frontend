@@ -1,5 +1,5 @@
 /* ============================================================
-   LIVE ORDERS PAGE
+   LIVE ORDERS PAGE — Dark Teal Theme
    ============================================================ */
 
 .admin-header {
@@ -20,11 +20,14 @@
 }
 
 .order-column {
-  background: var(--color-bg-alt);
+  background: rgba(13, 47, 55, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
   padding: var(--space-md);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   min-height: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
 .column-header {
@@ -33,14 +36,14 @@
   gap: var(--space-sm);
   padding-bottom: var(--space-md);
   margin-bottom: var(--space-md);
-  border-bottom: 2px solid var(--color-border);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .column-header h3 {
   flex: 1;
   font-family: var(--font-heading);
   font-size: 1.1rem;
-  color: var(--color-text);
+  color: var(--color-white);
   margin: 0;
 }
 
@@ -50,11 +53,11 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-full);
-  background: var(--color-gray-light);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .column-dot {
@@ -78,7 +81,7 @@
 .column-empty {
   text-align: center;
   padding: var(--space-2xl) var(--space-md);
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .column-empty span {
@@ -89,6 +92,7 @@
 
 .column-empty p {
   font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* Mobile */

@@ -7,41 +7,45 @@
 
 .footer-inner {
   max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: var(--space-2xl);
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-3xl);
   padding-bottom: var(--space-2xl);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+.horizontal-line{
+  width: 100%;
+  border: 1px solid rgba(234, 30, 30, 0.662);
+}
+
+.footer-grid > :nth-child(2) {
+  justify-self: center;
+}
 
 /* Brand */
-.footer-brand .footer-logo {
+.footer-brand .footer-logo-footer {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
 }
 
-.footer-brand .logo-icon {
-  font-size: 1.8rem;
-}
-
-.footer-brand .logo-yoeg {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
+.logo-text-footer{
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: "Bauhaus 93", "Bauhaus93", Impact, "Arial Black", sans-serif;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--color-white);
+  text-transform: uppercase;
+  color: #e70c0ce3;
 }
 
-.footer-brand .logo-cafe {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
-  font-style: italic;
-  color: var(--color-accent);
-}
 
 .footer-tagline {
   font-size: 0.95rem;

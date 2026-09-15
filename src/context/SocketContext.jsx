@@ -9,6 +9,7 @@ import {
   useMemo,
 } from "react";
 import { io } from "socket.io-client";
+import { useMenu } from "./MenuContext";
 
 const SOCKET_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
@@ -17,6 +18,7 @@ const SocketContext = createContext(null);
 export function SocketProvider({ children }) {
   const socket = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
+  const { fetchMenu } = useMenu();
 
   useEffect(() => {
     const adminToken = sessionStorage.getItem("yoeg_admin_token");
@@ -31,6 +33,10 @@ export function SocketProvider({ children }) {
 
     socket.current.on("disconnect", () => {
       setIsConnected(false);
+    });
+
+    socket.current.on("menu_updated", () => {
+      fetchMenu();
     });
 
     return () => {

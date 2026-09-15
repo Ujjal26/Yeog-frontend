@@ -1,9 +1,9 @@
 /* ============================================================
-   CHECKOUT PAGE
+   CHECKOUT PAGE — Dark Teal Theme
    ============================================================ */
 
 .checkout-page {
-  background: var(--color-bg);
+  background: linear-gradient(135deg, #092328 0%, #0d2f37 60%, #092328 100%);
   min-height: 100svh;
 }
 
@@ -21,7 +21,7 @@
   align-items: center;
   gap: var(--space-sm);
   font-size: 0.9rem;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.55);
   margin-bottom: var(--space-md);
   padding: 6px 0;
   background: transparent;
@@ -31,15 +31,17 @@
 }
 
 .back-btn:hover {
-  color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .checkout-header h1 {
   margin-bottom: var(--space-xs);
+  color: var(--color-white);
 }
 
 .checkout-header p {
   font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Grid layout */
@@ -56,12 +58,12 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .checkout-items-header h3 {
   font-family: var(--font-heading);
-  color: var(--color-primary);
+  color: var(--color-white);
   margin: 0;
 }
 
@@ -87,7 +89,7 @@
 .payment-card-title {
   font-family: var(--font-heading);
   font-size: 1.05rem;
-  color: var(--color-primary);
+  color: var(--color-white);
   margin: 0 0 var(--space-md);
 }
 
@@ -101,13 +103,13 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .price-total {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-accent-light);
 }
 
 /* Payment options */
@@ -130,12 +132,12 @@
 .payment-label {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--color-text);
+  color: var(--color-white);
 }
 
 .payment-desc {
   font-size: 0.82rem;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .place-order-btn {
@@ -162,10 +164,12 @@
 
 .empty-state h2 {
   margin-bottom: var(--space-sm);
+  color: var(--color-white);
 }
 
 .empty-state p {
   margin-bottom: var(--space-xl);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Success Modal */
@@ -179,13 +183,13 @@
 }
 
 .success-modal-content h3 {
-  color: var(--color-primary);
+  color: var(--color-success);
   margin-bottom: var(--space-sm);
 }
 
 .success-note {
   font-size: 0.88rem;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.5);
   margin-top: var(--space-sm);
 }
 

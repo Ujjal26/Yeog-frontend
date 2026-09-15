@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { formatPrice, timeAgo } from '../../utils/helpers';
 import './OrderTicket.css';
 
@@ -11,7 +10,7 @@ export default function OrderTicket({ order, onAction }) {
     },
     Served: {
       color: 'success',
-      actionLabel: 'Complete',
+      actionLabel: 'Served',
       nextStatus: null,
     },
   };
@@ -52,7 +51,8 @@ export default function OrderTicket({ order, onAction }) {
       <div className="ticket-footer">
         <button
           className={`btn btn-sm ticket-action-btn ${config.nextStatus ? '' : 'btn-ghost'}`}
-          // onClick={() => onAction(order.id, config.next  tatus)}
+          onClick={() => onAction(order.id, config.nextStatus)}
+          disabled={!config.nextStatus}
         >
           {config.actionLabel}
         </button>

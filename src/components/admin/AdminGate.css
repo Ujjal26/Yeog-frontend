@@ -1,5 +1,5 @@
 /* ============================================================
-   ADMIN GATE (Password Protection)
+   ADMIN GATE (Password Protection) — Dark Teal Theme
    ============================================================ */
 
 .admin-gate {
@@ -7,8 +7,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #174205 0%, #0f2d03 40%, #1a3a0a 100%);
+  background: linear-gradient(135deg, #092328 0%, #0d2f37 50%, #092328 100%);
   padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-gate::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(138, 2, 2, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(138, 2, 2, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .gate-card {
@@ -16,6 +28,12 @@
   max-width: 420px;
   padding: var(--space-2xl);
   text-align: center;
+  background: rgba(13, 47, 55, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
 }
 
 .gate-header {
@@ -30,13 +48,13 @@
 
 .gate-header h2 {
   font-family: var(--font-heading);
-  color: var(--color-primary);
+  color: var(--color-white);
   margin-bottom: var(--space-sm);
 }
 
 .gate-header p {
   font-size: 0.92rem;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .gate-form {
@@ -68,15 +86,15 @@
 .gate-hint {
   margin-top: var(--space-lg);
   font-size: 0.78rem;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .gate-hint code {
-  background: var(--color-bg-alt);
+  background: rgba(255, 255, 255, 0.08);
   padding: 2px 8px;
   border-radius: var(--radius-xs);
   font-size: 0.78rem;
-  color: var(--color-primary);
+  color: var(--color-accent-light);
   font-weight: 600;
 }
 

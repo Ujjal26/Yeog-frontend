@@ -82,7 +82,7 @@ export default function TableCard({ table, orders, onPaymentDone }) {
           </div>
           <div className="table-card-footer" style={{ borderTop: 'none', justifyContent: 'center' }}>
             <button
-              className="btn btn-sm btn-ghost table-pay-btn"
+              className="btn btn-sm btn-primary table-pay-btn"
               style={{ width: '100%' }}
               onClick={() => onPaymentDone(table._id || table.id)}
             >

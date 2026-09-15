@@ -12,6 +12,7 @@ import {
 import { io } from "socket.io-client";
 import { useCart } from "./CartContext";
 import { useOrders } from "./OrderContext";
+import { useMenu } from "./MenuContext";
 import { useNavigate } from "react-router-dom";
 
 const SOCKET_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
@@ -23,6 +24,7 @@ export function TableSocketProvider({ children }) {
   const [isConnected, setIsConnected] = useState(false);
   const { tableNumber, clearCart } = useCart();
   const { updateOrderStatus } = useOrders();
+  const { fetchMenu } = useMenu();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +56,11 @@ export function TableSocketProvider({ children }) {
         // Admin updated order status
         socket.current.on("order_status_updated", ({ orderId, status }) => {
           updateOrderStatus(orderId, status);
+        });
+
+        // Menu updated by admin (auto-reload menu)
+        socket.current.on("menu_updated", () => {
+          fetchMenu();
         });
       }
     } else {

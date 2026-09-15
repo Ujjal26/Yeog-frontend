@@ -17,12 +17,13 @@ export default function Navbar({ variant = "customer", tableNumber }) {
     >
       <div className="navbar-inner">
         <Link to={variant === "admin" ? "/admin" : "/"} className="navbar-logo">
-          <span className="logo-icon">☕</span>
-          <span className="logo-text">
-            <span className="logo-yoeg">Yoeg</span>
-            <span className="logo-cafe">Cafe</span>
-          </span>
+          {/* <span className="logo-icon">☕</span> */}
+          <span className="logo-text">yoeg cafe</span>
         </Link>
+
+        <div>
+          <p className="footer-address">📍 123 Brew Street, Cafeville</p>
+        </div>
 
         {variant === "customer" && tableNumber && (
           <div className="table-indicator">

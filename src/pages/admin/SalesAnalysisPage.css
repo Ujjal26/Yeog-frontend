@@ -1,3 +1,7 @@
+/* ============================================================
+   SALES ANALYSIS PAGE — Dark Teal Theme (harmonized)
+   ============================================================ */
+
 .sales-kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -6,25 +10,28 @@
 }
 
 .kpi-card {
-  background: var(--color-surface, rgba(30, 30, 40, 0.7));
+  background: rgba(13, 47, 55, 0.75);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.25rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
 .kpi-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .kpi-icon {
   font-size: 2.25rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 0.5rem;
   display: flex;
@@ -32,6 +39,7 @@
   justify-content: center;
   width: 54px;
   height: 54px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .kpi-content {
@@ -41,7 +49,7 @@
 
 .kpi-label {
   font-size: 0.85rem;
-  color: var(--color-text-muted, #94a3b8);
+  color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 0.25rem;
@@ -50,23 +58,23 @@
 .kpi-value {
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--color-text-main, #f8fafc);
+  color: #f8fafc;
 }
 
 .kpi-revenue .kpi-value {
-  color: #10b981;
+  color: #22c55e;
 }
 
 .kpi-quantity .kpi-value {
-  color: #3b82f6;
+  color: #38bdf8;
 }
 
 .kpi-entries .kpi-value {
-  color: #8b5cf6;
+  color: #a78bfa;
 }
 
 .kpi-avg .kpi-value {
-  color: #f59e0b;
+  color: #fbbf24;
 }
 
 /* Analytics Body Layout */
@@ -83,11 +91,13 @@
 }
 
 .analytics-card {
-  background: var(--color-surface, rgba(30, 30, 40, 0.7));
+  background: rgba(13, 47, 55, 0.75);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 1.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
 .card-header {
@@ -106,7 +116,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0;
-  color: var(--color-text-main, #f8fafc);
+  color: var(--color-white);
 }
 
 /* Top Items List */
@@ -124,7 +134,7 @@
 
 .item-rank {
   font-weight: 700;
-  color: var(--color-text-muted, #94a3b8);
+  color: rgba(255, 255, 255, 0.4);
   width: 24px;
   text-align: center;
   font-size: 0.95rem;
@@ -143,25 +153,25 @@
 
 .item-names {
   font-weight: 600;
-  color: var(--color-text-main, #e2e8f0);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .item-stats {
   font-size: 0.85rem;
-  color: var(--color-text-muted, #94a3b8);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .progress-bar-container {
   height: 6px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  background: linear-gradient(90deg, #8a0202, #b30303);
   border-radius: 999px;
   transition: width 0.4s ease;
 }
@@ -169,8 +179,8 @@
 /* Search Input */
 .search-input {
   min-width: 240px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #fff;
   border-radius: 8px;
   padding: 0.4rem 0.8rem;
@@ -178,7 +188,12 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: #8a0202;
+  box-shadow: 0 0 0 3px rgba(138, 2, 2, 0.2);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* Sales Log Table */
@@ -196,7 +211,7 @@
 .sales-table th {
   background: rgba(255, 255, 255, 0.04);
   padding: 0.75rem 1rem;
-  color: var(--color-text-muted, #94a3b8);
+  color: rgba(255, 255, 255, 0.45);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -207,19 +222,19 @@
 .sales-table td {
   padding: 0.85rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--color-text-main, #e2e8f0);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .sales-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .text-muted {
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .text-success {
-  color: #10b981;
+  color: #22c55e;
 }
 
 .text-center {

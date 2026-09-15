@@ -14,19 +14,20 @@ export default function AdminDashboard() {
   const { orders, addOrder, removeOrder } = useOrders();
   const { socket, isConnected } = useSocket();
 
+  const fetchTables = async () => {
+    try {
+      const res = await fetch(API_URL);
+      if (res.ok) {
+        const data = await res.json();
+        setTables(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch tables:', err);
+    }
+  };
+
   // Fetch tables from backend on mount
   useEffect(() => {
-    const fetchTables = async () => {
-      try {
-        const res = await fetch(API_URL);
-        if (res.ok) {
-          const data = await res.json();
-          setTables(data);
-        }
-      } catch (err) {
-        console.error('Failed to fetch tables:', err);
-      }
-    };
     fetchTables();
   }, []);
 
@@ -80,12 +81,14 @@ export default function AdminDashboard() {
     socket.on('order_received', handleOrderReceived);
     socket.on('active_tables', handleActiveTables);
     socket.on('table_closed', handleTableClosed);
+    socket.on('table_updated', fetchTables);
 
     return () => {
       socket.off('new_table_joined', handleNewTable);
       socket.off('order_received', handleOrderReceived);
       socket.off('active_tables', handleActiveTables);
       socket.off('table_closed', handleTableClosed);
+      socket.off('table_updated', fetchTables);
     };
   }, [socket, addOrder]);
 

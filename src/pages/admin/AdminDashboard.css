@@ -1,9 +1,8 @@
 /* ============================================================
-   ADMIN DASHBOARD
+   ADMIN DASHBOARD — Dark Teal Theme
    ============================================================ */
 
 .admin-page {
-  background: var(--color-bg);
   min-height: 100svh;
 }
 
@@ -17,10 +16,12 @@
 
 .admin-header h1 {
   margin-bottom: var(--space-xs);
+  color: var(--color-white);
 }
 
 .admin-header p {
   font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Stats */
@@ -37,9 +38,18 @@
   gap: var(--space-md);
   padding: var(--space-lg);
   border-radius: var(--radius-md);
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-xs);
+  background: rgba(13, 47, 55, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .stat-card .stat-count {
@@ -52,16 +62,16 @@
 .stat-card .stat-label {
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .stat-active .stat-count { color: var(--color-warning); }
 .stat-available .stat-count { color: var(--color-success); }
-.stat-closed .stat-count { color: var(--color-gray); }
+.stat-closed .stat-count { color: rgba(255, 255, 255, 0.35); }
 
 .stat-active { border-left: 4px solid var(--color-warning); }
 .stat-available { border-left: 4px solid var(--color-success); }
-.stat-closed { border-left: 4px solid var(--color-gray); }
+.stat-closed { border-left: 4px solid rgba(255, 255, 255, 0.2); }
 
 /* Table Grid */
 .table-grid {

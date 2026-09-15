@@ -12,13 +12,13 @@
 .category-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212, 165, 116, 0.4), transparent);
 }
 
 .category-title {
   font-family: var(--font-heading);
   font-size: 1.6rem;
-  color: var(--color-primary);
+  color: var(--color-white);
   white-space: nowrap;
   font-weight: 600;
   letter-spacing: -0.01em;

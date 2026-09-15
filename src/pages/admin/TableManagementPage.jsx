@@ -74,11 +74,13 @@ export default function TableManagementPage() {
     socket.on("active_tables", handleActiveTables);
     socket.on("new_table_joined", handleNewTable);
     socket.on("table_closed", handleTableClosed);
+    socket.on("table_updated", fetchTables);
 
     return () => {
       socket.off("active_tables", handleActiveTables);
       socket.off("new_table_joined", handleNewTable);
       socket.off("table_closed", handleTableClosed);
+      socket.off("table_updated", fetchTables);
     };
   }, [socket]);
 
@@ -236,21 +238,21 @@ export default function TableManagementPage() {
                     }}
                   >
                     <button
-                      className="btn btn-sm btn-ghost"
+                      className="btn btn-sm btn-primary"
                       onClick={() => downloadQR(table.number)}
                       title="Download the QR Code image"
                     >
                       📥 Download QR
                     </button>
                     <button
-                      className="btn btn-sm btn-ghost"
+                      className="btn btn-sm btn-primary"
                       onClick={() => copyQRLink(table.number, table.qrToken)}
                       title="Copy the secure QR Code URL for printing"
                     >
                       🔗 Copy QR Link
                     </button>
                     <button
-                      className={`btn btn-sm ${isClosed ? "btn-primary" : "btn-ghost"}`}
+                      className={`btn btn-sm ${isClosed ? "btn-secondary" : "btn-primary"}`}
                       onClick={() =>
                         handleToggleStatus(table._id, table.status)
                       }

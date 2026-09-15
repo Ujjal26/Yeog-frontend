@@ -158,6 +158,7 @@ export function MenuProvider({ children }) {
       updateItem,
       deleteItem,
       getByCategory,
+      fetchMenu,
     }),
     [
       menuItems,
@@ -167,6 +168,7 @@ export function MenuProvider({ children }) {
       updateItem,
       deleteItem,
       getByCategory,
+      fetchMenu,
     ],
   );
 

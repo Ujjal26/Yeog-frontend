@@ -19,25 +19,13 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar" id="admin-sidebar">
-      {/* Connection Status Indicator */}
-      <div
-        className={`connection-status ${isConnected ? "connected" : "disconnected"}`}
-      >
-        <span className="status-dot"></span>
-        <span className="status-text">
-          {isConnected ? "Live" : "Connecting…"}
-        </span>
-      </div>
-
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <span className="logo-icon">☕</span>
-          <div className="logo-text">
-            <span className="logo-yoeg">yoeg</span>
-            <span className="logo-cafe">Cafe</span>
-          </div>
+          <span className="logo-text-sidebar">
+            Yeog Cafe
+          </span>
         </div>
-        <span className="sidebar-badge badge badge-primary">Staff</span>
+        <span className="sidebar-badge badge badge-warning">Staff</span>
       </div>
 
       <nav className="sidebar-nav">

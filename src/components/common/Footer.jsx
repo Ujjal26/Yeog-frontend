@@ -8,15 +8,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="footer-brand">
             <div className="footer-logo">
-              <span className="logo-icon">☕</span>
-              <span className="logo-text">
-                <span className="logo-yoeg">yoeg</span>
-                <span className="logo-cafe">Cafe</span>
+              <span className="logo-text-footer">
+                Yeog Cafe
               </span>
             </div>
             <p className="footer-tagline">
-              Crafting moments, one cup at a time. Fresh brews, artisan
-              pastries, and a warm welcome.
+              You Eat Only Good...!!!
             </p>
           </div>
 
@@ -25,16 +22,13 @@ export default function Footer() {
             <h4 className="footer-heading">Opening Hours</h4>
             <div className="hours-list">
               <div className="hours-row">
-                <span>Monday – Friday</span>
-                <span>7:00 AM – 9:00 PM</span>
+                <span>Wednesday to Monday</span>
+                <span>3:00 PM – 10:00 PM</span>
               </div>
+                <span className="horizontal-line"></span>
               <div className="hours-row">
-                <span>Saturday</span>
-                <span>8:00 AM – 10:00 PM</span>
-              </div>
-              <div className="hours-row">
-                <span>Sunday</span>
-                <span>8:00 AM – 8:00 PM</span>
+                <span>Tuesday</span>
+                <span>Closed</span>
               </div>
             </div>
           </div>
@@ -88,7 +82,6 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="footer-address">📍 123 Brew Street, Cafeville</p>
           </div>
         </div>
 

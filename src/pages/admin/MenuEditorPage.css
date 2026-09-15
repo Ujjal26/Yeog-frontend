@@ -1,5 +1,5 @@
 /* ============================================================
-   MENU EDITOR PAGE
+   MENU EDITOR PAGE — Dark Teal Theme
    ============================================================ */
 
 /* Category Tabs */
@@ -8,9 +8,11 @@
   gap: var(--space-xs);
   margin-bottom: var(--space-xl);
   padding: 4px;
-  background: var(--color-white);
+  background: rgba(13, 47, 55, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   width: fit-content;
 }
 
@@ -19,7 +21,7 @@
   border-radius: var(--radius-sm);
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.55);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -27,14 +29,14 @@
 }
 
 .editor-tab:hover {
-  background: var(--color-bg-alt);
-  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .editor-tab.active {
   background: var(--color-primary);
   color: var(--color-white);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 10px rgba(138, 2, 2, 0.4);
 }
 
 /* Table */
@@ -50,7 +52,7 @@
 }
 
 .menu-table thead {
-  background: var(--color-bg-alt);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .menu-table th {
@@ -58,16 +60,17 @@
   text-align: left;
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .menu-table td {
   padding: var(--space-md) var(--space-lg);
   vertical-align: middle;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
 }
 
 .menu-table tbody tr {
@@ -75,7 +78,7 @@
 }
 
 .menu-table tbody tr:hover {
-  background: var(--color-bg-alt);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .menu-table tbody tr:last-child td {
@@ -103,6 +106,7 @@
   border-radius: var(--radius-sm);
   object-fit: cover;
   flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .table-item-info {
@@ -112,13 +116,13 @@
 
 .table-item-name {
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-white);
   font-size: 0.92rem;
 }
 
 .table-item-desc {
   font-size: 0.78rem;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.45);
   max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
@@ -127,7 +131,7 @@
 
 .table-price {
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-accent-light);
 }
 
 /* Action buttons */
@@ -151,11 +155,11 @@
 }
 
 .edit-btn:hover {
-  background: var(--color-warning-bg);
+  background: rgba(245, 158, 11, 0.15);
 }
 
 .delete-btn:hover {
-  background: var(--color-error-bg);
+  background: rgba(239, 68, 68, 0.15);
 }
 
 /* Edit Form */
@@ -174,7 +178,7 @@
 .form-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-text);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .form-actions {
@@ -187,7 +191,7 @@
 /* Delete confirm */
 .delete-confirm p {
   font-size: 0.95rem;
-  color: var(--color-text);
+  color: rgba(255, 255, 255, 0.75);
   line-height: 1.6;
 }
 

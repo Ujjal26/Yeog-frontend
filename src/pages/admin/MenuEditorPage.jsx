@@ -49,8 +49,12 @@ export default function MenuEditorPage() {
     const formData = new FormData();
     formData.append('photo', imageFile);
 
+    const token = sessionStorage.getItem('yoeg_admin_token');
     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/upload`, {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     });
     
