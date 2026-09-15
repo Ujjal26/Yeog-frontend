@@ -37,7 +37,7 @@ export default function Footer() {
           <div className="footer-section">
             <h4 className="footer-heading">Connect With Us</h4>
             <div className="social-links">
-              <a href="#" className="social-link" aria-label="Instagram">
+              <a href="https://www.instagram.com/yoeg.cafe/?hl=en" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Instagram">
                 <svg
                   width="20"
                   height="20"

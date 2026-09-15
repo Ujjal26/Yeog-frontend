@@ -470,26 +470,21 @@
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-.menu-preview-track {
-  display: flex;
-  gap: var(--space-xl);
-  width: max-content;
-  animation: slide-marquee 35s linear infinite;
+.menu-preview-swiper {
+  width: 100%;
   padding: 0 var(--space-xl);
 }
 
-.menu-preview-track:hover {
-  animation-play-state: paused;
+.menu-preview-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
 }
 
-@keyframes slide-marquee {
-  0% { transform: translateX(0); }
-  /* Slide exactly half the track width (the first 8 items + 1 gap to seamlessly loop) */
-  100% { transform: translateX(calc(-50% - (var(--space-xl) / 2))); }
+.menu-preview-slide {
+  width: auto;
 }
 
 .menu-preview-card {
-  flex: 0 0 280px;
+  width: 280px;
   height: 400px;
   position: relative;
   border-radius: var(--radius-xl);
@@ -642,7 +637,7 @@
 
   /* Menu Preview Mobile */
   .menu-preview-card {
-    flex: 0 0 220px;
+    width: 220px;
     height: 320px;
   }
   
@@ -680,7 +675,7 @@
     grid-row: span 1;
   }
   .menu-preview-card {
-    flex: 0 0 180px;
+    width: 180px;
     height: 280px;
   }
   .menu-preview-card-text {

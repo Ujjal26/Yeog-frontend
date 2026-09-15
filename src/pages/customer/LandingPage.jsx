@@ -4,6 +4,9 @@ import { parseTableParams, isValidTableAccess } from "../../utils/urlParser";
 import Modal from "../../components/common/Modal";
 import Navbar from "../../components/common/Navbar";
 import Footer from "../../components/common/Footer";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 import "./LandingPage.css";
 
 export default function LandingPage() {
@@ -175,7 +178,20 @@ export default function LandingPage() {
             <div className="decorative-line"></div>
           </div>
           <div className="menu-preview-track-container">
-            <div className="menu-preview-track">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={32}
+              slidesPerView="auto"
+              loop={true}
+              speed={4000}
+              autoplay={{
+                delay: 0,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              grabCursor={true}
+              className="menu-preview-swiper"
+            >
               {[
                 { img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=600", title: "Rich Espresso" },
                 { img: "https://images.unsplash.com/photo-1534687941688-651ccaafbff8?auto=format&fit=crop&q=80&w=600", title: "Classic Cappuccino" },
@@ -185,28 +201,21 @@ export default function LandingPage() {
                 { img: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&q=80&w=600", title: "Avocado Toast" },
                 { img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=600", title: "Iced Coffee" },
                 { img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=600", title: "Berry Cheesecake" }
-              ].concat([
-                { img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=600", title: "Rich Espresso" },
-                { img: "https://images.unsplash.com/photo-1534687941688-651ccaafbff8?auto=format&fit=crop&q=80&w=600", title: "Classic Cappuccino" },
-                { img: "https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?auto=format&fit=crop&q=80&w=600", title: "Matcha Latte" },
-                { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh1uvEtFoLQr8Fn5HkYuErtQ9-GaTiK7kkaMPvdf8bkq2Ms5xeo3eIcVg&s=10", title: "Butter Croissant" },
-                { img: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&q=80&w=600", title: "Blueberry Muffin" },
-                { img: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&q=80&w=600", title: "Avocado Toast" },
-                { img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=600", title: "Iced Coffee" },
-                { img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=600", title: "Berry Cheesecake" }
-              ]).map((item, index) => (
-                <div className="menu-preview-card" key={index}>
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="menu-preview-image"
-                  />
-                  <div className="menu-preview-overlay">
-                    <p className="menu-preview-card-text">{item.title}</p>
+              ].map((item, index) => (
+                <SwiperSlide key={index} className="menu-preview-slide">
+                  <div className="menu-preview-card">
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="menu-preview-image"
+                    />
+                    <div className="menu-preview-overlay">
+                      <p className="menu-preview-card-text">{item.title}</p>
+                    </div>
                   </div>
-                </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         </div>
       </section>
