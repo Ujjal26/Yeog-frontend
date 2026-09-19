@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { parseTableParams, isValidTableAccess } from "../../utils/urlParser";
@@ -49,16 +50,9 @@ export default function LandingPage() {
           </p>
           <div className="hero-actions">
             <button
-              className="btn btn-primary btn-lg hero-cta"
-              onClick={handleOrderNow}
-              id="order-now-btn"
             >
-              <span>Order Now</span>
-              <span className="cta-arrow">→</span>
+              <a href="#our-story"className="btn btn-primary btn-lg hero-cta">Our Story →</a>
             </button>
-            <a href="#our-story" className="btn btn-ghost btn-lg">
-              Our Story
-            </a>
           </div>
         </div>
       </section>
@@ -89,7 +83,7 @@ export default function LandingPage() {
                 yoeg Cafe was born from a simple belief: that the best moments
                 in life happen over a great cup of coffee. Nestled in the heart
                 of the city, we've been serving handcrafted beverages and fresh
-                pastries since 2024.
+                pastries since 2026.
               </p>
               <p className="story-text">
                 Every bean is ethically sourced, every pastry baked fresh daily,
@@ -97,20 +91,6 @@ export default function LandingPage() {
                 Whether you're here for a quick espresso or a leisurely
                 afternoon, we're here to make it memorable.
               </p>
-              {/* <div className="story-stats">
-                <div className="stat-item">
-                  <span className="stat-number">2K+</span>
-                  <span className="stat-label">Cups Daily</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-number">15+</span>
-                  <span className="stat-label">Brew Styles</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-number">100%</span>
-                  <span className="stat-label">Organic</span>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

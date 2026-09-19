@@ -6,6 +6,8 @@ import Sidebar from '../../components/admin/Sidebar';
 import Modal from '../../components/common/Modal';
 import './MenuEditorPage.css';
 
+const PREDEFINED_CATEGORIES = ["Lets Start", "Lets Chill", "Lets Dig In", "Lets Feast", "Lets Get Cheesy"];
+
 export default function MenuEditorPage() {
   const { menuItems, menuCategories, toggleAvailability, updateItem, deleteItem, addItem } = useMenu();
   const [activeCategory, setActiveCategory] = useState('All');
@@ -20,6 +22,9 @@ export default function MenuEditorPage() {
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [isCustomCategory, setIsCustomCategory] = useState(false);
+
+  const allCategories = Array.from(new Set([...PREDEFINED_CATEGORIES, ...menuCategories]));
 
   const filteredItems =
     activeCategory === 'All'
@@ -34,12 +39,14 @@ export default function MenuEditorPage() {
 
   const handleAddOpen = () => {
     resetForm();
+    setIsCustomCategory(false);
     setIsAddModalOpen(true);
   };
 
   const handleEditOpen = (item) => {
     resetForm();
     setForm({ name: item.name, price: item.price, description: item.description, category: item.category });
+    setIsCustomCategory(!allCategories.includes(item.category) && item.category !== '');
     setEditModal({ open: true, item });
   };
 
@@ -272,7 +279,35 @@ export default function MenuEditorPage() {
             </div>
             <div>
               <label className="form-label">Category</label>
-              <input type="text" className="input" placeholder="e.g. Coffee" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} disabled={isSubmitting} />
+              <select 
+                className="input" 
+                value={isCustomCategory ? "Custom" : form.category} 
+                onChange={(e) => {
+                  if (e.target.value === "Custom") {
+                    setIsCustomCategory(true);
+                    setForm({ ...form, category: '' });
+                  } else {
+                    setIsCustomCategory(false);
+                    setForm({ ...form, category: e.target.value });
+                  }
+                }}
+                disabled={isSubmitting}
+              >
+                <option value="" disabled>Select Category</option>
+                {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                <option value="Custom">Custom...</option>
+              </select>
+              {isCustomCategory && (
+                <input 
+                  type="text" 
+                  className="input" 
+                  style={{ marginTop: '0.5rem' }} 
+                  placeholder="Enter custom category" 
+                  value={form.category} 
+                  onChange={(e) => setForm({ ...form, category: e.target.value })} 
+                  disabled={isSubmitting} 
+                />
+              )}
             </div>
           </div>
           <div className="form-group">
@@ -311,7 +346,35 @@ export default function MenuEditorPage() {
             </div>
             <div>
               <label className="form-label">Category</label>
-              <input type="text" className="input" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} disabled={isSubmitting} />
+              <select 
+                className="input" 
+                value={isCustomCategory ? "Custom" : form.category} 
+                onChange={(e) => {
+                  if (e.target.value === "Custom") {
+                    setIsCustomCategory(true);
+                    setForm({ ...form, category: '' });
+                  } else {
+                    setIsCustomCategory(false);
+                    setForm({ ...form, category: e.target.value });
+                  }
+                }}
+                disabled={isSubmitting}
+              >
+                <option value="" disabled>Select Category</option>
+                {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                <option value="Custom">Custom...</option>
+              </select>
+              {isCustomCategory && (
+                <input 
+                  type="text" 
+                  className="input" 
+                  style={{ marginTop: '0.5rem' }} 
+                  placeholder="Enter custom category" 
+                  value={form.category} 
+                  onChange={(e) => setForm({ ...form, category: e.target.value })} 
+                  disabled={isSubmitting} 
+                />
+              )}
             </div>
           </div>
           <div className="form-group">

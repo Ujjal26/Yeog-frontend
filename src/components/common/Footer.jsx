@@ -87,6 +87,11 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p>© 2026 yoeg Cafe. All rights reserved.</p>
+          <p style={{ marginTop: '8px', fontSize: '0.9rem' }}>
+            <a href="https://www.instagram.com/creatz.o/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-text-muted)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'} onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}>
+              Created By CreatezO
+            </a>
+          </p>
         </div>
       </div>
     </footer>

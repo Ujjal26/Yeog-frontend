@@ -22,7 +22,7 @@ export default function Navbar({ variant = "customer", tableNumber }) {
         </Link>
 
         <div>
-          <p className="footer-address">📍 123 Brew Street, Cafeville</p>
+          <p className="footer-address">📍 Ranaghat Biswas Para, Beside Ranaghat Sweets</p>
         </div>
 
         {variant === "customer" && tableNumber && (

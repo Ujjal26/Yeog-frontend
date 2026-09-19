@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSocket } from "../../context/SocketContext";

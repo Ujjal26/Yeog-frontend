@@ -400,6 +400,11 @@ p {
   color: rgba(255, 255, 255, 0.35);
 }
 
+select.input option {
+  background-color: var(--color-bg-alt);
+  color: var(--color-white);
+}
+
 /* Toggle Switch (Pure CSS) */
 .toggle-switch {
   position: relative;
