@@ -16,17 +16,24 @@ export function MenuProvider({ children }) {
   const [menuItems, setMenuItems] = useState([]);
   const [menuCategories, setMenuCategories] = useState([]);
 
+  // Sort items by createdAt ascending
+  const sortByCreatedAt = (items) =>
+    [...items].sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+
   // Fetch menu on load
   const fetchMenu = useCallback(async () => {
     try {
       const res = await fetch(API_URL);
       if (res.ok) {
         const data = await res.json();
-        setMenuItems(data);
+        const sorted = sortByCreatedAt(data);
+        setMenuItems(sorted);
 
-        // Extract unique categories dynamically
+        // Extract unique categories dynamically (preserve sorted order)
         const uniqueCategories = [
-          ...new Set(data.map((item) => item.category)),
+          ...new Set(sorted.map((item) => item.category)),
         ];
         setMenuCategories(uniqueCategories);
       }
@@ -68,7 +75,7 @@ export function MenuProvider({ children }) {
       });
       if (res.ok) {
         const { item } = await res.json();
-        setMenuItems((prev) => [item, ...prev]);
+        setMenuItems((prev) => sortByCreatedAt([...prev, item]));
 
         // Update categories if this item introduces a new one
         setMenuCategories((prev) => {
