@@ -143,7 +143,7 @@ export default function TableManagementPage() {
   };
 
   const downloadQR = (tableNumber) => {
-    const canvas = document.getElementById(`qr-table-${tableNumber}`);
+    const canvas = document.getElementById(`qr-download-${tableNumber}`);
     if (canvas) {
       const pngUrl = canvas
         .toDataURL("image/png")
@@ -218,6 +218,13 @@ export default function TableManagementPage() {
                         id={`qr-table-${table.number}`}
                         value={`${window.location.origin}/order?table=${table.number}&token=${table.qrToken}`}
                         size={64}
+                      />
+                      {/* Hidden high-res canvas used only for downloading */}
+                      <QRCodeCanvas
+                        id={`qr-download-${table.number}`}
+                        value={`${window.location.origin}/order?table=${table.number}&token=${table.qrToken}`}
+                        size={300}
+                        style={{ display: "none" }}
                       />
                     </div>
                     <div>

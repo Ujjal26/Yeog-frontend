@@ -248,3 +248,91 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+/* ============================================================
+   STOCK OVERVIEW SECTION
+   ============================================================ */
+
+.stock-section {
+  margin-bottom: 2rem;
+}
+
+.stock-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.stock-section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin: 0 0 0.25rem 0;
+}
+
+.stock-section-sub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+/* Stock KPI Grid — 4 columns (same responsive as sales-kpi-grid) */
+.stock-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Accent color overrides for stock cards */
+.kpi-stock-total .kpi-value {
+  color: #38bdf8; /* sky blue */
+}
+
+.kpi-stock-available .kpi-value {
+  color: #4ade80; /* bright green */
+}
+
+.kpi-stock-out .kpi-value {
+  color: #f87171; /* soft red */
+}
+
+.kpi-stock-value .kpi-value {
+  color: #c084fc; /* lavender */
+}
+
+/* Category breakdown table card */
+.stock-breakdown-card {
+  margin-top: 0;
+}
+
+/* Stock badge variants */
+.stock-badge-available {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.stock-badge-out {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+

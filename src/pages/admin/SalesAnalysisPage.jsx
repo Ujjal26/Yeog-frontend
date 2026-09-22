@@ -6,7 +6,7 @@ import MonthlySalesChart from "./components/MonthlySalesChart";
 import "./SalesAnalysisPage.css";
 
 const API_URL = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/orders/orderdata`;
-
+const STOCK_SUMMARY_URL = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/menu/stock-summary`;
 
 const formatDateYYYYMMDD = (dateVal) => {
   if (!dateVal) return "";
@@ -34,6 +34,10 @@ export default function SalesAnalysisPage() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [stockSummary, setStockSummary] = useState(null);
+  const [stockLoading, setStockLoading] = useState(true);
+  const [stockError, setStockError] = useState(null);
+
   const fetchSalesData = async () => {
     setLoading(true);
     setError(null);
@@ -60,8 +64,25 @@ export default function SalesAnalysisPage() {
     }
   };
 
+  const fetchStockSummary = async () => {
+    setStockLoading(true);
+    setStockError(null);
+    try {
+      const res = await fetch(STOCK_SUMMARY_URL);
+      if (!res.ok) throw new Error(`Failed to fetch stock summary (${res.status})`);
+      const data = await res.json();
+      setStockSummary(data);
+    } catch (err) {
+      console.error("Error fetching stock summary:", err);
+      setStockError(err.message || "Failed to load stock summary");
+    } finally {
+      setStockLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchSalesData();
+    fetchStockSummary();
   }, []);
 
   // Compute key analytics figures
@@ -166,6 +187,111 @@ export default function SalesAnalysisPage() {
 
           {/* Interactive Monthly Sales & Profit Chart */}
           <MonthlySalesChart salesData={salesData} />
+
+          {/* ── Stock Overview Section ── */}
+          <div className="stock-section animate-slideUp">
+            <div className="stock-section-header">
+              <div>
+                <h2 className="stock-section-title">🏪 Current Stock Overview</h2>
+                <p className="stock-section-sub">Live snapshot of menu items currently in stock and their cumulative catalog value.</p>
+              </div>
+              <button
+                className="btn btn-secondary btn-sm refresh-btn"
+                onClick={fetchStockSummary}
+                disabled={stockLoading}
+              >
+                🔄 {stockLoading ? "Refreshing..." : "Refresh Stock"}
+              </button>
+            </div>
+
+            {stockError && (
+              <div className="alert alert-danger animate-fadeIn">⚠️ {stockError}</div>
+            )}
+
+            {/* Stock KPI Cards */}
+            <div className="stock-kpi-grid">
+              <div className="kpi-card kpi-stock-total">
+                <div className="kpi-icon">🗂️</div>
+                <div className="kpi-content">
+                  <span className="kpi-label">Total Menu Items</span>
+                  <span className="kpi-value">
+                    {stockLoading ? "—" : (stockSummary?.totalItems ?? 0)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="kpi-card kpi-stock-available">
+                <div className="kpi-icon">✅</div>
+                <div className="kpi-content">
+                  <span className="kpi-label">In Stock</span>
+                  <span className="kpi-value">
+                    {stockLoading ? "—" : (stockSummary?.inStockCount ?? 0)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="kpi-card kpi-stock-out">
+                <div className="kpi-icon">🚫</div>
+                <div className="kpi-content">
+                  <span className="kpi-label">Out of Stock</span>
+                  <span className="kpi-value">
+                    {stockLoading ? "—" : (stockSummary?.outOfStockCount ?? 0)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="kpi-card kpi-stock-value">
+                <div className="kpi-icon">💎</div>
+                <div className="kpi-content">
+                  <span className="kpi-label">In-Stock Catalog Value</span>
+                  <span className="kpi-value">
+                    {stockLoading ? "—" : `₹${(stockSummary?.inStockValue ?? 0).toFixed(2)}`}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Category Breakdown Table */}
+            {!stockLoading && stockSummary?.categoryBreakdown?.length > 0 && (
+              <div className="analytics-card stock-breakdown-card">
+                <div className="card-header">
+                  <h3>📂 Stock by Category</h3>
+                </div>
+                <div className="table-responsive">
+                  <table className="sales-table stock-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        <th>Total Items</th>
+                        <th>In Stock</th>
+                        <th>Out of Stock</th>
+                        <th>In-Stock Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stockSummary.categoryBreakdown.map((cat, idx) => (
+                        <tr key={cat.category}>
+                          <td className="text-muted">{idx + 1}</td>
+                          <td className="font-weight-bold">{cat.category}</td>
+                          <td>
+                            <span className="badge badge-secondary">{cat.total}</span>
+                          </td>
+                          <td>
+                            <span className="badge stock-badge-available">{cat.available}</span>
+                          </td>
+                          <td>
+                            <span className="badge stock-badge-out">{cat.total - cat.available}</span>
+                          </td>
+                          <td className="text-success font-weight-bold">₹{cat.value.toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Main Analytics Layout: Top Items + Full Log Table */}
           <div className="analytics-body-grid">
