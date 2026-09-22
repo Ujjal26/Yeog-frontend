@@ -128,13 +128,13 @@ export default function TableManagementPage() {
     }
   };
 
-  const copyQRLink = (tableNumber, qrToken) => {
+  const copyQRLink = (tableNumber, qrToken, tableName) => {
     const url = `${window.location.origin}/order?table=${tableNumber}&token=${qrToken}`;
+    const label = tableName || `Table ${tableNumber}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        // Optional: show a toast or alert
-        alert(`Secure QR Link for Table ${tableNumber} copied to clipboard!`);
+        alert(`Secure QR Link for ${label} copied to clipboard!`);
       })
       .catch((err) => {
         console.error("Failed to copy link", err);
@@ -228,7 +228,7 @@ export default function TableManagementPage() {
                       />
                     </div>
                     <div>
-                      <h3>Table {table.number}</h3>
+                      <h3>{table.name || `Table ${table.number}`}</h3>
                       <span
                         className={`badge ${isClosed ? "badge-neutral" : isActive ? "badge-warning badge-dot" : "badge-success"}`}
                       >
@@ -253,7 +253,7 @@ export default function TableManagementPage() {
                     </button>
                     <button
                       className="btn btn-sm btn-primary"
-                      onClick={() => copyQRLink(table.number, table.qrToken)}
+                      onClick={() => copyQRLink(table.number, table.qrToken, table.name)}
                       title="Copy the secure QR Code URL for printing"
                     >
                       🔗 Copy QR Link

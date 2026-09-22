@@ -6,12 +6,17 @@ const CartContext = createContext(null);
 const initialState = {
   items: [],
   tableNumber: null,
+  tableName: '',
 };
 
 function cartReducer(state, action) {
   switch (action.type) {
     case 'SET_TABLE':
-      return { ...state, tableNumber: action.payload };
+      return {
+        ...state,
+        tableNumber: action.payload.number,
+        tableName: action.payload.name || '',
+      };
 
     case 'ADD_ITEM': {
       const existing = state.items.find((i) => i.id === action.payload.id);
@@ -62,8 +67,8 @@ export function CartProvider({ children }) {
 
   const actions = useMemo(
     () => ({
-      setTable: (tableNumber) =>
-        dispatch({ type: 'SET_TABLE', payload: tableNumber }),
+      setTable: (tableNumber, tableName = '') =>
+        dispatch({ type: 'SET_TABLE', payload: { number: tableNumber, name: tableName } }),
       addItem: (item) => dispatch({ type: 'ADD_ITEM', payload: item }),
       removeItem: (id) => dispatch({ type: 'REMOVE_ITEM', payload: id }),
       updateQuantity: (id, qty) =>

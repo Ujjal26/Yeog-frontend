@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
-export default function Navbar({ variant = "customer", tableNumber }) {
+export default function Navbar({ variant = "customer", tableNumber, tableName }) {
   const location = useLocation();
 
   const adminLinks = [
@@ -28,7 +28,7 @@ export default function Navbar({ variant = "customer", tableNumber }) {
         {variant === "customer" && tableNumber && (
           <div className="table-indicator">
             <span className="table-dot"></span>
-            Table {tableNumber}
+            {tableName || `Table ${tableNumber}`}
           </div>
         )}
 

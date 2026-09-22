@@ -12,7 +12,7 @@ import './CheckoutPage.css';
 
 
 export default function CheckoutPage() {
-  const { items, tableNumber, subtotal, tax, total, clearCart } = useCart();
+  const { items, tableNumber, tableName, subtotal, tax, total, clearCart } = useCart();
   const { addOrder } = useOrders();
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState('counter');
@@ -53,7 +53,7 @@ export default function CheckoutPage() {
   if (items.length === 0 && !successModal) {
     return (
       <div className="checkout-page">
-        <Navbar variant="customer" tableNumber={tableNumber} />
+        <Navbar variant="customer" tableNumber={tableNumber} tableName={tableName} />
         <div className="checkout-empty container">
           <div className="empty-state">
             <span className="empty-icon">🛒</span>
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="checkout-page">
-      <Navbar variant="customer" tableNumber={tableNumber} />
+      <Navbar variant="customer" tableNumber={tableNumber} tableName={tableName} />
 
       <main className="checkout-main container">
         <div className="checkout-header animate-slideUp">

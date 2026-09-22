@@ -1,7 +1,7 @@
 import { formatPrice, timeAgo } from '../../utils/helpers';
 import './OrderTicket.css';
 
-export default function OrderTicket({ order, onAction }) {
+export default function OrderTicket({ order, tableName, onAction }) {
   const statusConfig = {
     Received: {
       color: 'error',
@@ -27,7 +27,7 @@ export default function OrderTicket({ order, onAction }) {
           </span>
         </div>
         <div className="ticket-meta">
-          <span className="ticket-table">🪑 Table {order.tableNumber}</span>
+          <span className="ticket-table">🪑 {tableName || `Table ${order.tableNumber}`}</span>
           <span className="ticket-time">{timeAgo(order.timestamp)}</span>
         </div>
       </div>

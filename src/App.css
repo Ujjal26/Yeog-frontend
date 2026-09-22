@@ -801,8 +801,9 @@ select.input option {
    ============================================================ */
 
 .connection-status {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 6px 14px;
   border-radius: var(--radius-xl);
@@ -818,6 +819,13 @@ select.input option {
   -webkit-backdrop-filter: blur(12px);
   transition: var(--transition);
 }
+
+/* Dot-only variant: no text children → shrink to a circle */
+.connection-status:not(:has(.status-text)) {
+  padding: 7px;
+  border-radius: 50%;
+}
+
 
 .connection-status.connected {
   background: rgba(34, 197, 94, 0.15);

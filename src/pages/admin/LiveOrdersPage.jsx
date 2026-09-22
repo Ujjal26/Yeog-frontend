@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useOrders } from '../../context/OrderContext';
 import { useSocket } from '../../context/SocketContext';
 import Navbar from '../../components/common/Navbar';
@@ -7,9 +7,26 @@ import Sidebar from '../../components/admin/Sidebar';
 import OrderTicket from '../../components/admin/OrderTicket';
 import './LiveOrdersPage.css';
 
+const TABLES_API = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/tables`;
+
 export default function LiveOrdersPage() {
   const { orders, addOrder, updateOrderStatus, removeOrder } = useOrders();
   const { socket, isConnected } = useSocket();
+  const [tables, setTables] = useState([]);
+
+  // Fetch tables once to resolve names
+  useEffect(() => {
+    fetch(TABLES_API)
+      .then((r) => r.json())
+      .then(setTables)
+      .catch(() => {});
+  }, []);
+
+  // Helper: resolve a display label for a table number
+  const getTableLabel = (tableNumber) => {
+    const t = tables.find((t) => t.number === tableNumber);
+    return t && t.name ? t.name : `Table ${tableNumber}`;
+  };
 
   // Listen for real-time incoming orders
   useEffect(() => {
@@ -90,7 +107,12 @@ export default function LiveOrdersPage() {
                   </div>
                 ) : (
                   receivedOrders.map((order) => (
-                    <OrderTicket key={order.id} order={order} onAction={handleAction} />
+                    <OrderTicket
+                      key={order.id}
+                      order={order}
+                      tableName={getTableLabel(order.tableNumber)}
+                      onAction={handleAction}
+                    />
                   ))
                 )}
               </div>
@@ -113,7 +135,12 @@ export default function LiveOrdersPage() {
                   </div>
                 ) : (
                   servedOrders.map((order) => (
-                    <OrderTicket key={order.id} order={order} onAction={handleAction} />
+                    <OrderTicket
+                      key={order.id}
+                      order={order}
+                      tableName={getTableLabel(order.tableNumber)}
+                      onAction={handleAction}
+                    />
                   ))
                 )}
               </div>

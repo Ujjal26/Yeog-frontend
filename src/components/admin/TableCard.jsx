@@ -22,6 +22,9 @@ export default function TableCard({ table, orders, onPaymentDone }) {
 
   const config = statusConfig[table.status] || statusConfig.available;
 
+  // Use custom name when available, fall back to "Table N"
+  const tableLabel = table.name ? table.name : `Table ${table.number}`;
+
   // Format time properly just in case it's a full ISO string from mockOrders
   const formatTime = (timeStr) => {
     if (timeStr.includes('T')) {
@@ -34,7 +37,7 @@ export default function TableCard({ table, orders, onPaymentDone }) {
   return (
     <div className={`table-card card ${config.className}`} id={`table-${table.number}`}>
       <div className="table-card-header">
-        <span className="table-number">Table {table.number}</span>
+        <span className="table-number">{tableLabel}</span>
         <span className="table-status-indicator">
           <span className="status-dot" style={{ background: config.dotColor }}></span>
           {config.label}

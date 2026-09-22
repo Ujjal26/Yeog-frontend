@@ -20,7 +20,7 @@ export default function OrderingPage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const { menuItems, menuCategories } = useMenu();
-  const { tableNumber, setTable, clearCart } = useCart();
+  const { tableNumber, tableName, setTable, clearCart } = useCart();
   const { orders } = useOrders();
   const navigate = useNavigate();
   const { socket, isConnected } = useTableSocket();
@@ -34,7 +34,16 @@ export default function OrderingPage() {
         const payload = JSON.parse(atob(sessionToken.split(".")[1]));
 
         // Ensure they are strictly assigned to their locked table
-        setTable(payload.tableNumber);
+        // Fetch table name from the API so the navbar shows the right label
+        fetch(
+          `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/tables`
+        )
+          .then((r) => r.json())
+          .then((tables) => {
+            const t = tables.find((t) => t.number === payload.tableNumber);
+            setTable(payload.tableNumber, t?.name || '');
+          })
+          .catch(() => setTable(payload.tableNumber, ''));
 
         // If they manually tampered with the URL parameter, strip it or correct it
         if (
@@ -79,7 +88,8 @@ export default function OrderingPage() {
         const data = await res.json();
         if (res.ok) {
           sessionStorage.setItem("yoeg_customer_token", data.token);
-          setTable(parseInt(urlTableNumber, 10));
+          // data.table contains the full table object including name
+          setTable(parseInt(urlTableNumber, 10), data.table?.name || '');
           // Strip the secret token from the URL so it can't be easily copied by onlookers
           navigate("/order", { replace: true });
         } else {
@@ -132,16 +142,14 @@ export default function OrderingPage() {
 
   return (
     <div className="ordering-page">
-      <Navbar variant="customer" tableNumber={tableNumber} />
+      <Navbar variant="customer" tableNumber={tableNumber} tableName={tableName} />
 
-      {/* Connection Status Indicator */}
+      {/* Connection Status Indicator — dot only */}
       <div
         className={`connection-status ${isConnected ? "connected" : "disconnected"}`}
+        title={isConnected ? "Live" : "Connecting…"}
       >
         <span className="status-dot"></span>
-        <span className="status-text">
-          {isConnected ? "Live" : "Connecting…"}
-        </span>
       </div>
 
       {/* Sticky Category Nav */}
