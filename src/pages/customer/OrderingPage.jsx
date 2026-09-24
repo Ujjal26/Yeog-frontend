@@ -25,6 +25,9 @@ export default function OrderingPage() {
   const navigate = useNavigate();
   const { socket, isConnected } = useTableSocket();
 
+  // Tables named exactly "Menu Table" are view-only display menus — ordering is disabled.
+  const isViewOnly = tableName?.trim().toLowerCase() === 'menu table';
+
   useEffect(() => {
     const sessionToken = sessionStorage.getItem("yoeg_customer_token");
 
@@ -170,8 +173,30 @@ export default function OrderingPage() {
         </div>
       </div>
 
-      {/* Current Orders Section */}
-      {currentTableOrders.length > 0 && (
+      {/* View-only banner for Menu Table */}
+      {isViewOnly && (
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(var(--color-primary-rgb, 99,102,241),0.12), rgba(var(--color-primary-rgb, 99,102,241),0.06))',
+            border: '1px solid rgba(99,102,241,0.25)',
+            borderRadius: '12px',
+            margin: '0.75rem 1rem 0',
+            padding: '0.65rem 1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '0.82rem',
+            color: 'var(--color-text-light)',
+            fontWeight: 500,
+          }}
+        >
+          <span>📋</span>
+          <span>This is a <strong>display menu</strong> — ordering is not available at this table.</span>
+        </div>
+      )}
+
+      {/* Current Orders Section — hidden for view-only tables */}
+      {!isViewOnly && currentTableOrders.length > 0 && (
         <div className="current-orders-section container animate-slideDown">
           <div className="current-orders-header">
             <h3>Ordered Items</h3>
@@ -257,14 +282,15 @@ export default function OrderingPage() {
                 key={category}
                 category={category}
                 items={categoryItems}
+                viewOnly={isViewOnly}
               />
             );
           })
         )}
       </main>
 
-      {/* Bottom Cart Summary */}
-      <CartSummary />
+      {/* Bottom Cart Summary — hidden for view-only tables */}
+      {!isViewOnly && <CartSummary />}
 
       {/* Spacer for cart summary */}
       <div className="cart-spacer"></div>

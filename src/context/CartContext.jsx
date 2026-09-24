@@ -57,6 +57,10 @@ function cartReducer(state, action) {
     case 'CLEAR_CART':
       return { ...state, items: [] };
 
+    case 'CLEAR_TABLE':
+      // Full reset: clears cart items AND table identity (used on payment/logout)
+      return { ...initialState };
+
     default:
       return state;
   }
@@ -74,6 +78,7 @@ export function CartProvider({ children }) {
       updateQuantity: (id, qty) =>
         dispatch({ type: 'UPDATE_QUANTITY', payload: { id, qty } }),
       clearCart: () => dispatch({ type: 'CLEAR_CART' }),
+      clearTable: () => dispatch({ type: 'CLEAR_TABLE' }),
     }),
     []
   );

@@ -3,7 +3,7 @@ import { useCart } from '../../context/CartContext';
 import { formatPrice } from '../../utils/helpers';
 import './ProductCard.css';
 
-export default function ProductCard({ item }) {
+export default function ProductCard({ item, viewOnly = false }) {
   const { items, addItem, updateQuantity, removeItem } = useCart();
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -54,7 +54,19 @@ export default function ProductCard({ item }) {
         <div className="product-footer">
           <span className="product-price">{formatPrice(item.price)}</span>
 
-          {item.isAvailable ? (
+          {/* View-only mode: hide all ordering controls */}
+          {viewOnly ? (
+            <span
+              style={{
+                fontSize: '0.72rem',
+                color: 'var(--color-text-light)',
+                fontStyle: 'italic',
+                opacity: 0.7,
+              }}
+            >
+              view only
+            </span>
+          ) : item.isAvailable ? (
             qty > 0 ? (
               <div className="qty-controls">
                 <button className="qty-btn" onClick={handleDecrement} aria-label="Decrease quantity">−</button>

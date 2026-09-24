@@ -22,7 +22,7 @@ const TableSocketContext = createContext(null);
 export function TableSocketProvider({ children }) {
   const socket = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
-  const { tableNumber, clearCart } = useCart();
+  const { tableNumber, clearCart, clearTable } = useCart();
   const { updateOrderStatus } = useOrders();
   const { fetchMenu } = useMenu();
   const navigate = useNavigate();
@@ -45,10 +45,36 @@ export function TableSocketProvider({ children }) {
           setIsConnected(false);
         });
 
-        // Admin closed this table (payment done)
+        /**
+         * Handles socket connection rejection from the server middleware.
+         * Fires when the server rejects the connection because the loginToken in the
+         * customer's JWT no longer matches the one stored in the Table DB —
+         * i.e. the table was reset / a new customer scanned the QR since this session started.
+         * Performs a full logout identical to the table_closed flow.
+         */
+        socket.current.on("connect_error", (err) => {
+          const isSessionError =
+            err.message.includes("Session expired") ||
+            err.message.includes("Authentication error");
+
+          if (isSessionError) {
+            console.warn("[TableSocket] Connection rejected by server:", err.message);
+            sessionStorage.removeItem("yoeg_customer_token");
+            clearTable();
+            socket.current?.disconnect();
+            socket.current = null;
+            navigate("/");
+          }
+        });
+
+        // Admin closed this table (payment done) — fully log out the customer
         socket.current.on("table_closed", () => {
-          clearCart();
-          socket.current.disconnect();
+          // Remove the customer JWT so the session is fully invalidated
+          sessionStorage.removeItem("yoeg_customer_token");
+          // Reset cart items AND table identity in context
+          clearTable();
+          // Disconnect the socket cleanly
+          socket.current?.disconnect();
           socket.current = null;
           navigate("/");
         });
@@ -74,7 +100,7 @@ export function TableSocketProvider({ children }) {
     return () => {
       // Don't disconnect here on unmount so the connection persists across route changes
     };
-  }, [tableNumber, clearCart, navigate, updateOrderStatus]);
+  }, [tableNumber, clearCart, clearTable, navigate, updateOrderStatus]);
 
   const value = useMemo(
     () => ({ socket: socket.current, isConnected }),
@@ -82,9 +108,7 @@ export function TableSocketProvider({ children }) {
   );
 
   return (
-    <TableSocketContext.Provider value={value}>
-      {children}
-    </TableSocketContext.Provider>
+    <TableSocketContext.Provider value={value}>{children}</TableSocketContext.Provider>
   );
 }
 
