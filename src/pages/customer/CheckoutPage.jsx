@@ -17,11 +17,14 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState('counter');
   const [successModal, setSuccessModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderId, setOrderId] = useState('');
   const { socket } = useTableSocket();
 
   const handlePlaceOrder = () => {
-    if (items.length === 0) return;
+    if (items.length === 0 || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     const newOrderId = generateOrderId();
     const order = {
@@ -47,6 +50,7 @@ export default function CheckoutPage() {
   const handleSuccessClose = () => {
     clearCart();
     setSuccessModal(false);
+    setIsSubmitting(false);
     navigate(`/order?table=${tableNumber}`);
   };
 
@@ -140,9 +144,10 @@ export default function CheckoutPage() {
             <button
               className="btn btn-primary btn-lg place-order-btn"
               onClick={handlePlaceOrder}
+              disabled={isSubmitting}
               id="place-order-btn"
             >
-              Place Order · {formatPrice(total)}
+              {isSubmitting ? 'Processing...' : `Place Order · ${formatPrice(total)}`}
             </button>
           </div>
         </div>

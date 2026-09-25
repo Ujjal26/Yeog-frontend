@@ -146,7 +146,7 @@
 /* Bar Chart Graphic Area */
 .chart-bars-container {
   position: relative;
-  height: 240px;
+  height: calc(240px + 3rem);
   padding-top: 1.5rem;
   padding-bottom: 2rem;
   margin-top: 1rem;

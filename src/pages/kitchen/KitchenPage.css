@@ -1,0 +1,194 @@
+/* ============================================================
+   KITCHEN PAGE — Dark Teal Theme (Copied from LiveOrders)
+   ============================================================ */
+
+.kitchen-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+}
+
+.kitchen-mobile-nav {
+  display: none;
+}
+
+.kitchen-layout {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+.kitchen-main {
+  flex: 1;
+  padding: calc(var(--nav-height) + var(--space-xl)) var(--space-2xl) var(--space-2xl);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.kitchen-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+}
+
+.kitchen-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-xs);
+  letter-spacing: -0.02em;
+}
+
+.kitchen-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+.orders-total-badge {
+  flex-shrink: 0;
+}
+
+/* Bento Grid */
+.orders-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+.order-column {
+  background: rgba(13, 47, 55, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.column-header h3 {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.column-count {
+  font-size: 0.82rem;
+  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.column-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+}
+
+.dot-red { background: var(--color-error); }
+.dot-blue { background: var(--color-primary); }
+
+.column-received .column-header { border-bottom-color: var(--color-error); }
+.column-description .column-header { border-bottom-color: var(--color-primary); }
+
+.column-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.column-empty {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.column-empty span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.column-empty p {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Item Detail Card */
+.item-detail-card {
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.item-detail-card h2 {
+  font-size: 1.5rem;
+  color: var(--color-white);
+  margin: 0;
+  font-family: var(--font-heading);
+}
+
+.item-detail-meta {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.item-detail-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+  .orders-bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .order-column {
+    min-height: auto;
+  }
+  .kitchen-mobile-nav {
+    display: block;
+  }
+}
+
+/* Make clickable ticket items noticeable */
+.ticket-item-row.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 4px;
+}
+
+.ticket-item-row.clickable:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}

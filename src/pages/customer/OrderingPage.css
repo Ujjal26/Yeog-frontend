@@ -9,9 +9,9 @@
 
 /* Sticky Category Nav */
 .category-nav {
-  /* position: sticky; */
-  top: 64px;
-  z-index: var(--z-sticky);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   padding: var(--space-md) 0;
   background: rgba(9, 35, 40, 0.8);
   backdrop-filter: blur(16px);
@@ -74,7 +74,7 @@
 /* Mobile */
 @media (max-width: 768px) {
   .category-nav {
-    top: 56px;
+    top: 0;
     padding: var(--space-sm) 0;
   }
 

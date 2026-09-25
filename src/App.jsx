@@ -18,6 +18,7 @@ import LiveOrdersPage from './pages/admin/LiveOrdersPage';
 import MenuEditorPage from './pages/admin/MenuEditorPage';
 import TableManagementPage from './pages/admin/TableManagementPage';
 import SalesAnalysisPage from './pages/admin/SalesAnalysisPage';
+import KitchenPage from './pages/kitchen/KitchenPage';
 
 import './App.css';
 
@@ -86,6 +87,19 @@ function App() {
                   <SocketProvider>
                     <GlobalConnectionStatus />
                     <SalesAnalysisPage />
+                  </SocketProvider>
+                </AdminGate>
+              }
+            />
+            
+            {/* Kitchen Route (Password Protected + Socket Connected) */}
+            <Route
+              path="/kitchen"
+              element={
+                <AdminGate>
+                  <SocketProvider>
+                    <GlobalConnectionStatus />
+                    <KitchenPage />
                   </SocketProvider>
                 </AdminGate>
               }

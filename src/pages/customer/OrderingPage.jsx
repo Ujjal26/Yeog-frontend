@@ -165,9 +165,9 @@ export default function OrderingPage() {
               className="category-pill"
               onClick={() => scrollToCategory(cat)}
             >
-              {cat === "Snacks" && "🍟 "}
-              {cat === "Beverages" && "☕ "}
-              {cat === "Pastries" && "🍰 "}
+              {cat === "Snacks" && ""}
+              {cat === "Beverages" && ""}
+              {cat === "Pastries" && ""}
               {cat}
             </button>
           ))}

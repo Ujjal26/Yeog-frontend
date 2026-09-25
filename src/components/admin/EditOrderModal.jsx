@@ -171,6 +171,10 @@ export default function EditOrderModal({ order, tableName, onClose, onSave, sock
                     >
                       ↩ Restore
                     </button>
+                  ) : item.isDone ? (
+                    <span className="edit-item-done-badge" style={{color: 'var(--color-success)', fontSize: '0.85rem', fontWeight: 600}}>
+                      ✓ Prepared
+                    </span>
                   ) : (
                     <>
                       <div className="edit-qty-stepper">

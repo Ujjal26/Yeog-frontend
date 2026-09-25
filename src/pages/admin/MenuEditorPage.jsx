@@ -11,6 +11,8 @@ const PREDEFINED_CATEGORIES = ["Lets Start", "Lets Chill", "Lets Dig In", "Lets 
 export default function MenuEditorPage() {
   const { menuItems, menuCategories, toggleAvailability, updateItem, deleteItem, addItem } = useMenu();
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortByCategory, setSortByCategory] = useState(false);
   
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -26,10 +28,20 @@ export default function MenuEditorPage() {
 
   const allCategories = Array.from(new Set([...PREDEFINED_CATEGORIES, ...menuCategories]));
 
-  const filteredItems =
+  let filteredItems =
     activeCategory === 'All'
       ? menuItems
       : menuItems.filter((item) => item.category === activeCategory);
+
+  if (searchQuery) {
+    filteredItems = filteredItems.filter(item => 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  if (sortByCategory) {
+    filteredItems = [...filteredItems].sort((a, b) => a.category.localeCompare(b.category));
+  }
 
   const resetForm = () => {
     setForm({ name: '', price: '', description: '', category: '' });
@@ -187,6 +199,27 @@ export default function MenuEditorPage() {
                 {cat}
               </button>
             ))}
+          </div>
+
+          {/* Controls: Search and Sort */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', alignItems: 'center', padding: '0 1rem' }}>
+            <input 
+              type="text" 
+              className="input" 
+              placeholder="Search by item name..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ maxWidth: '300px' }}
+            />
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: 'var(--color-white)' }}>
+              <input 
+                type="checkbox" 
+                checked={sortByCategory}
+                onChange={(e) => setSortByCategory(e.target.checked)}
+                style={{ accentColor: 'var(--color-primary)', width: '16px', height: '16px' }}
+              />
+              Sort by Category
+            </label>
           </div>
 
           {/* Data Table */}

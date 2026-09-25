@@ -1,7 +1,7 @@
 import { formatPrice, timeAgo } from '../../utils/helpers';
 import './OrderTicket.css';
 
-export default function OrderTicket({ order, tableName, onAction, onEdit }) {
+export default function OrderTicket({ order, tableName, onAction, onEdit, onItemClick }) {
   const statusConfig = {
     Received: {
       color: 'error',
@@ -35,9 +35,16 @@ export default function OrderTicket({ order, tableName, onAction, onEdit }) {
       <div className="ticket-body">
         <div className="ticket-items">
           {order.items.map((item, idx) => (
-            <div key={idx} className="ticket-item-row">
+            <div 
+              key={idx} 
+              className={`ticket-item-row ${item.isDone ? 'ticket-item-done' : ''} ${onItemClick ? 'clickable' : ''}`}
+              onClick={() => onItemClick && onItemClick(item, order.id)}
+            >
               <span className="ticket-item-qty">{item.qty}×</span>
-              <span className="ticket-item-name">{item.name}</span>
+              <span className="ticket-item-name">
+                {item.name}
+                {item.isDone && <span style={{fontSize: '0.75rem', marginLeft: '8px', color: 'var(--color-success)'}}>(Prepared)</span>}
+              </span>
               <span className="ticket-item-price">{formatPrice(item.price * item.qty)}</span>
             </div>
           ))}
