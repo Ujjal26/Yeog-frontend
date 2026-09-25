@@ -29,7 +29,7 @@ export default function OrderingPage() {
   const isViewOnly = tableName?.trim().toLowerCase() === 'menu table';
 
   useEffect(() => {
-    const sessionToken = sessionStorage.getItem("yoeg_customer_token");
+    const sessionToken = sessionStorage.getItem("yoeg_customer_token") || localStorage.getItem("yoeg_customer_token");
 
     if (sessionToken) {
       try {
@@ -91,6 +91,7 @@ export default function OrderingPage() {
         const data = await res.json();
         if (res.ok) {
           sessionStorage.setItem("yoeg_customer_token", data.token);
+          localStorage.setItem("yoeg_customer_token", data.token); // Persistent token for recovery
           // data.table contains the full table object including name
           setTable(parseInt(urlTableNumber, 10), data.table?.name || '');
           // Strip the secret token from the URL so it can't be easily copied by onlookers

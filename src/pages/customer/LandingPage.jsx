@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { parseTableParams, isValidTableAccess } from "../../utils/urlParser";
 import Modal from "../../components/common/Modal";
@@ -15,6 +15,15 @@ export default function LandingPage() {
   const location = useLocation();
   const [errorModal, setErrorModal] = useState({ open: false, message: "" });
   const [tableModal, setTableModal] = useState(false);
+
+  // Auto-redirect to active session if returning user
+  useEffect(() => {
+    const token = localStorage.getItem("yoeg_customer_token");
+    // If they have a token, skip the landing page and try to resume
+    if (token) {
+      navigate("/order", { replace: true });
+    }
+  }, [navigate]);
 
   const handleOrderNow = () => {
     const params = parseTableParams(location.search);

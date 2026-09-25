@@ -30,7 +30,7 @@ export function TableSocketProvider({ children }) {
   useEffect(() => {
     if (tableNumber) {
       if (!socket.current) {
-        const token = sessionStorage.getItem("yoeg_customer_token");
+        const token = sessionStorage.getItem("yoeg_customer_token") || localStorage.getItem("yoeg_customer_token");
         socket.current = io(SOCKET_URL, {
           auth: { token },
           query: { table: tableNumber },
@@ -60,6 +60,7 @@ export function TableSocketProvider({ children }) {
           if (isSessionError) {
             console.warn("[TableSocket] Connection rejected by server:", err.message);
             sessionStorage.removeItem("yoeg_customer_token");
+            localStorage.removeItem("yoeg_customer_token");
             clearTable();
             socket.current?.disconnect();
             socket.current = null;
@@ -71,6 +72,7 @@ export function TableSocketProvider({ children }) {
         socket.current.on("table_closed", () => {
           // Remove the customer JWT so the session is fully invalidated
           sessionStorage.removeItem("yoeg_customer_token");
+          localStorage.removeItem("yoeg_customer_token");
           // Reset cart items AND table identity in context
           clearTable();
           // Disconnect the socket cleanly
