@@ -58,6 +58,25 @@ export function OrderProvider({ children }) {
     setOrders((prev) => prev.filter((order) => order.id !== orderId));
   }, []);
 
+  /**
+   * Updates an order's items in local state after an admin edit.
+   * If updatedOrder is null (all items removed), the order is removed from state.
+   * Otherwise, replaces the order with the updated version from the server.
+   */
+  const updateOrderItems = useCallback((orderId, updatedOrder, deleted) => {
+    if (deleted || !updatedOrder) {
+      setOrders((prev) => prev.filter((order) => order.id !== orderId));
+    } else {
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.id === orderId
+            ? { ...order, items: updatedOrder.items, total: updatedOrder.total }
+            : order,
+        ),
+      );
+    }
+  }, []);
+
   const getOrdersByStatus = useCallback(
     (status) => orders.filter((order) => order.status === status),
     [orders],
@@ -69,6 +88,7 @@ export function OrderProvider({ children }) {
       addOrder,
       updateOrderStatus,
       removeOrder,
+      updateOrderItems,
       getOrdersByStatus,
       fetchOrders,
     }),
@@ -77,6 +97,7 @@ export function OrderProvider({ children }) {
       addOrder,
       updateOrderStatus,
       removeOrder,
+      updateOrderItems,
       getOrdersByStatus,
       fetchOrders,
     ],

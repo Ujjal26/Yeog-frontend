@@ -23,7 +23,7 @@ export function TableSocketProvider({ children }) {
   const socket = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
   const { tableNumber, clearCart, clearTable } = useCart();
-  const { updateOrderStatus } = useOrders();
+  const { updateOrderStatus, updateOrderItems } = useOrders();
   const { fetchMenu } = useMenu();
   const navigate = useNavigate();
 
@@ -84,6 +84,13 @@ export function TableSocketProvider({ children }) {
           updateOrderStatus(orderId, status);
         });
 
+        // Admin edited an order item (reduced quantity or cancelled)
+        socket.current.on("order_item_edited", ({ orderId, updatedOrder, deleted }) => {
+          if (typeof updateOrderItems === 'function') {
+            updateOrderItems(orderId, updatedOrder, deleted);
+          }
+        });
+
         // Menu updated by admin (auto-reload menu)
         socket.current.on("menu_updated", () => {
           fetchMenu();
@@ -100,7 +107,7 @@ export function TableSocketProvider({ children }) {
     return () => {
       // Don't disconnect here on unmount so the connection persists across route changes
     };
-  }, [tableNumber, clearCart, clearTable, navigate, updateOrderStatus]);
+  }, [tableNumber, clearCart, clearTable, navigate, updateOrderStatus, updateOrderItems]);
 
   const value = useMemo(
     () => ({ socket: socket.current, isConnected }),

@@ -5,14 +5,16 @@ import { useSocket } from '../../context/SocketContext';
 import Navbar from '../../components/common/Navbar';
 import Sidebar from '../../components/admin/Sidebar';
 import OrderTicket from '../../components/admin/OrderTicket';
+import EditOrderModal from '../../components/admin/EditOrderModal';
 import './LiveOrdersPage.css';
 
 const TABLES_API = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/tables`;
 
 export default function LiveOrdersPage() {
-  const { orders, addOrder, updateOrderStatus, removeOrder } = useOrders();
+  const { orders, addOrder, updateOrderStatus, removeOrder, updateOrderItems } = useOrders();
   const { socket, isConnected } = useSocket();
   const [tables, setTables] = useState([]);
+  const [editingOrder, setEditingOrder] = useState(null);
 
   // Fetch tables once to resolve names
   useEffect(() => {
@@ -41,14 +43,21 @@ export default function LiveOrdersPage() {
       updateOrderStatus(orderId, status);
     };
 
+    // Another admin tab edited an order's items
+    const handleOrderItemEdited = ({ orderId, updatedOrder, deleted }) => {
+      updateOrderItems(orderId, updatedOrder, deleted);
+    };
+
     socket.on('order_received', handleOrderReceived);
     socket.on('order_status_changed', handleStatusChanged);
+    socket.on('order_item_edited', handleOrderItemEdited);
 
     return () => {
       socket.off('order_received', handleOrderReceived);
       socket.off('order_status_changed', handleStatusChanged);
+      socket.off('order_item_edited', handleOrderItemEdited);
     };
-  }, [socket, addOrder, updateOrderStatus]);
+  }, [socket, addOrder, updateOrderStatus, updateOrderItems]);
 
   const receivedOrders = orders.filter((o) => o.status === 'Received');
   const servedOrders = orders.filter((o) => o.status === 'Served');
@@ -68,6 +77,14 @@ export default function LiveOrdersPage() {
         });
       }
     }
+  };
+
+  const handleEdit = (order) => {
+    setEditingOrder(order);
+  };
+
+  const handleEditSave = (orderId, updatedOrder, deleted) => {
+    updateOrderItems(orderId, updatedOrder, deleted);
   };
 
   return (
@@ -112,6 +129,7 @@ export default function LiveOrdersPage() {
                       order={order}
                       tableName={getTableLabel(order.tableNumber)}
                       onAction={handleAction}
+                      onEdit={handleEdit}
                     />
                   ))
                 )}
@@ -148,6 +166,17 @@ export default function LiveOrdersPage() {
           </div>
         </main>
       </div>
+
+      {/* Edit Order Modal */}
+      {editingOrder && (
+        <EditOrderModal
+          order={editingOrder}
+          tableName={getTableLabel(editingOrder.tableNumber)}
+          onClose={() => setEditingOrder(null)}
+          onSave={handleEditSave}
+          socket={socket}
+        />
+      )}
     </div>
   );
 }

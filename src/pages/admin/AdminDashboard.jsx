@@ -12,7 +12,7 @@ const API_URL = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}
 
 export default function AdminDashboard() {
   const [tables, setTables] = useState([]);
-  const { orders, addOrder, removeOrder } = useOrders();
+  const { orders, addOrder, removeOrder, updateOrderItems } = useOrders();
   const { socket, isConnected } = useSocket();
 
   const fetchTables = async () => {
@@ -78,11 +78,17 @@ export default function AdminDashboard() {
       );
     };
 
+    // An admin edited order items (reduced quantity or cancelled)
+    const handleOrderItemEdited = ({ orderId, updatedOrder, deleted }) => {
+      updateOrderItems(orderId, updatedOrder, deleted);
+    };
+
     socket.on('new_table_joined', handleNewTable);
     socket.on('order_received', handleOrderReceived);
     socket.on('active_tables', handleActiveTables);
     socket.on('table_closed', handleTableClosed);
     socket.on('table_updated', fetchTables);
+    socket.on('order_item_edited', handleOrderItemEdited);
 
     return () => {
       socket.off('new_table_joined', handleNewTable);
@@ -90,8 +96,9 @@ export default function AdminDashboard() {
       socket.off('active_tables', handleActiveTables);
       socket.off('table_closed', handleTableClosed);
       socket.off('table_updated', fetchTables);
+      socket.off('order_item_edited', handleOrderItemEdited);
     };
-  }, [socket, addOrder]);
+  }, [socket, addOrder, updateOrderItems]);
 
   const stats = {
     active: tables.filter((t) => t.status === 'active').length,

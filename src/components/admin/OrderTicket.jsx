@@ -1,7 +1,7 @@
 import { formatPrice, timeAgo } from '../../utils/helpers';
 import './OrderTicket.css';
 
-export default function OrderTicket({ order, tableName, onAction }) {
+export default function OrderTicket({ order, tableName, onAction, onEdit }) {
   const statusConfig = {
     Received: {
       color: 'error',
@@ -49,6 +49,15 @@ export default function OrderTicket({ order, tableName, onAction }) {
       </div>
 
       <div className="ticket-footer">
+        {onEdit && order.status === 'Received' && (
+          <button
+            className="btn btn-sm ticket-edit-btn"
+            onClick={() => onEdit(order)}
+            title="Edit item quantities or cancel items"
+          >
+            ✏️ Edit
+          </button>
+        )}
         <button
           className={`btn btn-sm ticket-action-btn ${config.nextStatus ? '' : 'btn-ghost'}`}
           onClick={() => onAction(order.id, config.nextStatus)}
