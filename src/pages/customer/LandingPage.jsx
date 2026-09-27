@@ -47,12 +47,12 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="hero-section" id="hero">
         <div className="hero-overlay"></div>
-        <img src="https://res.cloudinary.com/uu1wrvud/image/upload/v1789457866/IMG_20260915_130556.jpg" alt="Yoeg" className="hero-image" />
+        <img src="https://res.cloudinary.com/uu1wrvud/image/upload/v1790538276/_Yoeg_cafe__Your_new_favourite_corner_to_relax__connect___create_memories_JPG.jpg" alt="Yoeg" className="hero-image" />
         <div className="hero-content animate-fadeIn">
           <span className="hero-badge">Est. 2026</span>
           <h1 className="hero-title">
             Welcome to <br />
-            <span className="hero-brand">yoeg Cafe</span>
+            <span className="hero-brand">Yoeg Cafe</span>
           </h1>
           <p className="hero-subtitle">
             You Only Eat Good..!!!
@@ -73,7 +73,7 @@ export default function LandingPage() {
             <div className="story-image-col animate-slideUp">
               <div className="story-image-card">
                 <img
-                  src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&h=700&fit=crop"
+                  src="https://res.cloudinary.com/uu1wrvud/image/upload/v1790538745/_Yoeg_cafe__Your_new_favourite_corner_to_relax__connect___create_memories_JPG__1.jpg"
                   alt="Cozy cafe interior with warm lighting"
                   className="story-image"
                 />
@@ -92,13 +92,13 @@ export default function LandingPage() {
                 yoeg Cafe was born from a simple belief: that the best moments
                 in life happen over a great cup of coffee. Nestled in the heart
                 of the city, we've been serving handcrafted beverages and fresh
-                pastries since 2026.
+                foods since 2026.
               </p>
               <p className="story-text">
-                Every bean is ethically sourced, every pastry baked fresh daily,
+                Every bean is ethically sourced, every food is prepared fresh daily,
                 and every moment in our space designed to feel like home.
                 Whether you're here for a quick espresso or a leisurely
-                afternoon, we're here to make it memorable.
+                evening with your friends or family, we're here to make it memorable.
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function LandingPage() {
           <div className="cafe-interior-grid">
             <div className="cafe-interior-card">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsTkpRk3DqfOdQBf5fJrGIzuG8cgFYMF59fzJgcCrxMQ&s=10"
+                src="https://res.cloudinary.com/uu1wrvud/image/upload/v1790539773/WhatsApp_Image_2026-09-24_at_5.51.43_PM.jpg"
                 alt="pool Table"
                 className="cafe-interior-image"
               />
@@ -148,7 +148,7 @@ export default function LandingPage() {
             </div>
             <div className="cafe-interior-card">
               <img
-                src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800"
+                src="https://res.cloudinary.com/uu1wrvud/image/upload/v1790538745/_Yoeg_cafe__Your_new_favourite_corner_to_relax__connect___create_memories_JPG__1.jpg"
                 alt="Cozy cafe interior with warm lighting"
                 className="cafe-interior-image"
               />
