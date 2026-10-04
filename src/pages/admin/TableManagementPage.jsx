@@ -157,6 +157,50 @@ export default function TableManagementPage() {
     }
   };
 
+  const handleBulkToggle = async (targetStatus) => {
+    setIsUpdating(true);
+    setError("");
+
+    const tablesToUpdate = tables.filter(t => {
+      const isMenuTable = t.name?.trim().toLowerCase() === 'menu table';
+      if (isMenuTable) return false;
+      if (t.status === 'active') return false;
+      if (t.status === targetStatus) return false;
+      return true;
+    });
+
+    if (tablesToUpdate.length === 0) {
+      setError(`No eligible tables to ${targetStatus === 'closed' ? 'close' : 'open'}. Active tables or the Menu Table are skipped.`);
+      setTimeout(() => setError(""), 4000);
+      setIsUpdating(false);
+      return;
+    }
+
+    try {
+      const token = sessionStorage.getItem("yoeg_admin_token");
+      await Promise.all(tablesToUpdate.map(async (table) => {
+        const response = await fetch(`${API_URL}/${table._id}/toggle-status`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: targetStatus }),
+        });
+        if (!response.ok) {
+           console.error(`Failed to update table ${table.number}`);
+        }
+      }));
+      // Socket event 'table_updated' will trigger fetchTables
+    } catch (err) {
+      console.error("Bulk toggle error:", err);
+      setError("Error while updating tables");
+      setTimeout(() => setError(""), 4000);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
   return (
     <div className="admin-page">
       <div className="admin-mobile-nav">
@@ -172,18 +216,36 @@ export default function TableManagementPage() {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              flexWrap: "wrap",
+              gap: "1rem"
             }}
           >
             <div>
               <h1>Table Management</h1>
               <p>Add new tables or temporarily close existing ones.</p>
             </div>
-            <button
-              className="btn btn-primary"
-              onClick={() => setIsAddTableModalOpen(true)}
-            >
-              + Add Table
-            </button>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                className="btn btn-secondary"
+                onClick={() => handleBulkToggle("closed")}
+                disabled={isUpdating}
+              >
+                Close All
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => handleBulkToggle("available")}
+                disabled={isUpdating}
+              >
+                Open All
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => setIsAddTableModalOpen(true)}
+              >
+                + Add Table
+              </button>
+            </div>
           </div>
 
           {error && (

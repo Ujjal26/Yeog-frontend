@@ -22,6 +22,24 @@ export function MenuProvider({ children }) {
       (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
     );
 
+  // Categories that should always appear at the end, in this order
+  const TAIL_CATEGORIES = ['tobacco', 'extras'];
+
+  const sortCategories = (categories) => {
+    const tail = [];
+    const rest = [];
+    for (const cat of categories) {
+      if (TAIL_CATEGORIES.includes(cat.toLowerCase())) {
+        tail.push(cat);
+      } else {
+        rest.push(cat);
+      }
+    }
+    // Sort tail items by their defined order in TAIL_CATEGORIES
+    tail.sort((a, b) => TAIL_CATEGORIES.indexOf(a.toLowerCase()) - TAIL_CATEGORIES.indexOf(b.toLowerCase()));
+    return [...rest, ...tail];
+  };
+
   // Fetch menu on load
   const fetchMenu = useCallback(async () => {
     try {
@@ -31,11 +49,11 @@ export function MenuProvider({ children }) {
         const sorted = sortByCreatedAt(data);
         setMenuItems(sorted);
 
-        // Extract unique categories dynamically (preserve sorted order)
+        // Extract unique categories dynamically (preserve sorted order, tail categories last)
         const uniqueCategories = [
           ...new Set(sorted.map((item) => item.category)),
         ];
-        setMenuCategories(uniqueCategories);
+        setMenuCategories(sortCategories(uniqueCategories));
       }
     } catch (err) {
       console.error("Failed to fetch menu:", err);
@@ -80,7 +98,7 @@ export function MenuProvider({ children }) {
         // Update categories if this item introduces a new one
         setMenuCategories((prev) => {
           if (!prev.includes(item.category)) {
-            return [...prev, item.category];
+            return sortCategories([...prev, item.category]);
           }
           return prev;
         });
@@ -111,7 +129,7 @@ export function MenuProvider({ children }) {
         // Re-evaluate categories just in case
         setMenuCategories((prev) => {
           if (!prev.includes(item.category)) {
-            return [...prev, item.category];
+            return sortCategories([...prev, item.category]);
           }
           return prev;
         });

@@ -34,6 +34,9 @@ export default function ProductCard({ item, viewOnly = false }) {
   return (
     <div className={`product-card card ${!item.isAvailable ? 'sold-out' : ''}`} id={`product-${item.id}`}>
       <div className="product-image-wrap">
+        <span className={`veg-badge ${item.isVeg ? 'veg' : 'non-veg'}`}>
+          <span className="veg-badge-dot" />
+        </span>
         <img
           src={item.image}
           alt={item.name}

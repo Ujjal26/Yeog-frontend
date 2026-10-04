@@ -134,6 +134,45 @@
   color: var(--color-accent-light);
 }
 
+/* Veg / Non-Veg Tag (Admin Table) */
+.veg-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px 3px 7px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.veg-tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.veg-tag.veg {
+  background: rgba(34, 163, 76, 0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34, 163, 76, 0.25);
+}
+
+.veg-tag.veg .veg-tag-dot {
+  background: #22a34c;
+}
+
+.veg-tag.non-veg {
+  background: rgba(181, 51, 42, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(181, 51, 42, 0.25);
+}
+
+.veg-tag.non-veg .veg-tag-dot {
+  background: #b5332a;
+}
+
 /* Action buttons */
 .table-actions {
   display: flex;

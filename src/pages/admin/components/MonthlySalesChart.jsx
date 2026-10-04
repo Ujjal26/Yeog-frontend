@@ -118,7 +118,7 @@ export default function MonthlySalesChart({ salesData = [] }) {
             </select>
           </div>
 
-          <div className="control-group">
+          {/* <div className="control-group">
             <label htmlFor="margin-select" className="control-label">Profit Margin:</label>
             <select
               id="margin-select"
@@ -132,7 +132,7 @@ export default function MonthlySalesChart({ salesData = [] }) {
               <option value={0.7}>70%</option>
               <option value={0.8}>80%</option>
             </select>
-          </div>
+          </div> */}
         </div>
       </div>
 

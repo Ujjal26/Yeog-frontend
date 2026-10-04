@@ -292,14 +292,43 @@
 /* Footer */
 .edit-modal-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.edit-footer-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
 .edit-footer-btn {
   min-width: 120px;
+}
+
+.edit-cancel-all-btn {
+  background: rgba(239, 68, 68, 0.10);
+  color: var(--color-error);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  letter-spacing: 0.01em;
+}
+
+.edit-cancel-all-btn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+.edit-cancel-all-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 /* Mobile Responsive */

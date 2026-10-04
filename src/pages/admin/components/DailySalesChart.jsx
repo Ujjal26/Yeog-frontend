@@ -172,8 +172,8 @@ export default function DailySalesChart({ salesData = [], checkInData = [] }) {
             </select>
           </div>
 
-          <div className="control-group">
-            <label htmlFor="margin-select-daily" className="control-label">Margin:</label>
+          {/* <div className="control-group">
+            <label htmlFor="margin-select-daily" className="control-label">Profit Margin:</label>
             <select
               id="margin-select-daily"
               className="select select-sm chart-select"
@@ -186,7 +186,7 @@ export default function DailySalesChart({ salesData = [], checkInData = [] }) {
               <option value={0.7}>70%</option>
               <option value={0.8}>80%</option>
             </select>
-          </div>
+          </div> */}
         </div>
       </div>
 

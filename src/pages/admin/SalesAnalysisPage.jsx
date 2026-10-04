@@ -35,6 +35,13 @@ export default function SalesAnalysisPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+
+  // Reset page to 1 when search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const fetchSalesData = async () => {
     setLoading(true);
@@ -109,9 +116,17 @@ export default function SalesAnalysisPage() {
   // Filtered sales log
   const filteredData = salesData.filter((item) => {
     const nameMatch = item.order?.toLowerCase().includes(searchQuery.toLowerCase());
-    const timeMatch = item.timestamp?.toLowerCase().includes(searchQuery.toLowerCase());
+    const displayTime = formatDateYYYYMMDD(item.createdAt || item.timestamp);
+    const timeMatch = displayTime.toLowerCase().includes(searchQuery.toLowerCase());
     return nameMatch || timeMatch;
   });
+
+  // Pagination for the sales log
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="admin-page">
@@ -265,9 +280,11 @@ export default function SalesAnalysisPage() {
                         </td>
                       </tr>
                     ) : (
-                      filteredData.map((row, index) => (
+                      paginatedData.map((row, index) => {
+                        const globalIndex = (currentPage - 1) * itemsPerPage + index + 1;
+                        return (
                         <tr key={row._id || index}>
-                          <td className="text-muted">{index + 1}</td>
+                          <td className="text-muted">{globalIndex}</td>
                           <td className="font-weight-bold">{row.order}</td>
                           <td>
                             <span className="badge badge-secondary">{row.quantity}</span>
@@ -281,11 +298,35 @@ export default function SalesAnalysisPage() {
                           </td>
 
                         </tr>
-                      ))
+                        );
+                      })
                     )}
                   </tbody>
                 </table>
               </div>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="pagination-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <button 
+                    className="btn btn-sm btn-ghost" 
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(p => p - 1)}
+                  >
+                    ← Previous
+                  </button>
+                  <span style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)' }}>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button 
+                    className="btn btn-sm btn-ghost" 
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(p => p + 1)}
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 

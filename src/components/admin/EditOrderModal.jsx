@@ -58,6 +58,18 @@ export default function EditOrderModal({ order, tableName, onClose, onSave, sock
     );
   };
 
+  const handleCancelAll = () => {
+    setEditedItems((prev) =>
+      prev.map((item) =>
+        item.isDone ? item : { ...item, editQty: 0, cancelled: true }
+      )
+    );
+  };
+
+  // Check if all cancellable items are already cancelled
+  const allCancellable = editedItems.filter((item) => !item.isDone);
+  const allAlreadyCancelled = allCancellable.length > 0 && allCancellable.every((item) => item.cancelled);
+
   // Check if any changes were made
   const hasChanges = editedItems.some((item) => item.editQty !== item.qty);
 
@@ -234,16 +246,25 @@ export default function EditOrderModal({ order, tableName, onClose, onSave, sock
         </div>
 
         <div className="edit-modal-footer">
-          <button className="btn btn-sm btn-ghost edit-footer-btn" onClick={onClose}>
-            Cancel
-          </button>
           <button
-            className="btn btn-sm btn-primary edit-footer-btn"
-            onClick={handleSave}
-            disabled={!hasChanges || isSaving}
+            className="btn btn-sm edit-cancel-all-btn"
+            onClick={handleCancelAll}
+            disabled={allAlreadyCancelled || allCancellable.length === 0}
           >
-            {isSaving ? 'Saving…' : 'Save Changes'}
+            Cancel All Items
           </button>
+          <div className="edit-footer-actions">
+            <button className="btn btn-sm btn-ghost edit-footer-btn" onClick={onClose}>
+              Dismiss
+            </button>
+            <button
+              className="btn btn-sm btn-primary edit-footer-btn"
+              onClick={handleSave}
+              disabled={!hasChanges || isSaving}
+            >
+              {isSaving ? 'Saving…' : 'Save Changes'}
+            </button>
+          </div>
         </div>
       </div>
     </>

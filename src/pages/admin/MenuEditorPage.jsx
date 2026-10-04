@@ -20,7 +20,7 @@ export default function MenuEditorPage() {
   const [deleteModal, setDeleteModal] = useState({ open: false, item: null });
   
   // Forms state
-  const [form, setForm] = useState({ name: '', price: '', description: '', category: '' });
+  const [form, setForm] = useState({ name: '', price: '', description: '', category: '', isVeg: false });
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -44,7 +44,7 @@ export default function MenuEditorPage() {
   }
 
   const resetForm = () => {
-    setForm({ name: '', price: '', description: '', category: '' });
+    setForm({ name: '', price: '', description: '', category: '', isVeg: false });
     setImageFile(null);
     setError('');
   };
@@ -57,7 +57,7 @@ export default function MenuEditorPage() {
 
   const handleEditOpen = (item) => {
     resetForm();
-    setForm({ name: item.name, price: item.price, description: item.description, category: item.category });
+    setForm({ name: item.name, price: item.price, description: item.description, category: item.category, isVeg: item.isVeg || false });
     setIsCustomCategory(!allCategories.includes(item.category) && item.category !== '');
     setEditModal({ open: true, item });
   };
@@ -99,6 +99,7 @@ export default function MenuEditorPage() {
         description: form.description,
         category: form.category,
         image: imageUrl,
+        isVeg: form.isVeg,
       });
 
       if (res.success) {
@@ -134,6 +135,7 @@ export default function MenuEditorPage() {
         description: form.description,
         category: form.category,
         image: imageUrl,
+        isVeg: form.isVeg,
       });
 
       if (res.success) {
@@ -230,6 +232,7 @@ export default function MenuEditorPage() {
                   <th>Item</th>
                   <th>Category</th>
                   <th>Price</th>
+                  <th>Type</th>
                   <th>Available</th>
                   <th>Actions</th>
                 </tr>
@@ -250,6 +253,12 @@ export default function MenuEditorPage() {
                       <span className="badge badge-neutral">{item.category}</span>
                     </td>
                     <td className="table-price">{formatPrice(item.price)}</td>
+                    <td>
+                      <span className={`veg-tag ${item.isVeg ? 'veg' : 'non-veg'}`}>
+                        <span className="veg-tag-dot" />
+                        {item.isVeg ? 'Veg' : 'Non-Veg'}
+                      </span>
+                    </td>
                     <td>
                       <label className="toggle-switch" id={`toggle-${item.id}`}>
                         <input
@@ -282,7 +291,7 @@ export default function MenuEditorPage() {
                 ))}
                 {filteredItems.length === 0 && (
                   <tr>
-                    <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
                       No items found.
                     </td>
                   </tr>
@@ -346,6 +355,20 @@ export default function MenuEditorPage() {
           <div className="form-group">
             <label className="form-label">Description</label>
             <textarea className="input" rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} disabled={isSubmitting}></textarea>
+          </div>
+          <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <label className="toggle-switch" style={{ marginRight: '0.5rem' }}>
+              <input
+                type="checkbox"
+                checked={form.isVeg}
+                onChange={(e) => setForm({ ...form, isVeg: e.target.checked })}
+                disabled={isSubmitting}
+              />
+              <span className="toggle-slider"></span>
+            </label>
+            <span className="form-label" style={{ margin: 0, cursor: 'pointer' }} onClick={() => !isSubmitting && setForm({ ...form, isVeg: !form.isVeg })}>
+              {form.isVeg ? '🟢 Vegetarian' : '🔴 Non-Vegetarian'}
+            </span>
           </div>
           <div className="form-group">
             <label className="form-label">Item Image</label>
@@ -413,6 +436,20 @@ export default function MenuEditorPage() {
           <div className="form-group">
             <label className="form-label">Description</label>
             <textarea className="input" rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} disabled={isSubmitting}></textarea>
+          </div>
+          <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <label className="toggle-switch" style={{ marginRight: '0.5rem' }}>
+              <input
+                type="checkbox"
+                checked={form.isVeg}
+                onChange={(e) => setForm({ ...form, isVeg: e.target.checked })}
+                disabled={isSubmitting}
+              />
+              <span className="toggle-slider"></span>
+            </label>
+            <span className="form-label" style={{ margin: 0, cursor: 'pointer' }} onClick={() => !isSubmitting && setForm({ ...form, isVeg: !form.isVeg })}>
+              {form.isVeg ? '🟢 Vegetarian' : '🔴 Non-Vegetarian'}
+            </span>
           </div>
           <div className="form-group">
             <label className="form-label">Update Image (Optional)</label>
