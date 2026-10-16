@@ -14,6 +14,7 @@ export default function Sidebar() {
     { path: "/admin/orders", label: "Live Orders", icon: "🔥", end: false },
     { path: "/admin/tables", label: "Tables", icon: "🪑", end: false },
     { path: "/admin/menu", label: "Menu Editor", icon: "📝", end: false },
+    { path: "/admin/combos", label: "Combos & Deals", icon: "🎁", end: false },
     { path: "/admin/analytics", label: "Sales Analytics", icon: "📈", end: false },
   ];
 

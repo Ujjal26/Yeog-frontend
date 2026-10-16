@@ -1,0 +1,382 @@
+/* ============================================================
+   COMBO EDITOR PAGE — Admin Management CSS
+   ============================================================ */
+
+.combo-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.combo-search-wrap {
+  flex: 1;
+  max-width: 320px;
+}
+
+.combo-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.combo-thumb-placeholder {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px dashed rgba(245, 158, 11, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* Items in table cell */
+.combo-items-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 260px;
+}
+
+.combo-item-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+}
+
+.combo-item-chip-qty {
+  font-weight: 700;
+  color: var(--color-accent-light);
+}
+
+.combo-item-chip-alert {
+  color: var(--color-error);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.combo-warning-badge {
+  font-size: 0.7rem;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   MODAL FORM & PICKER STYLES
+   ============================================================ */
+
+.combo-form-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.combo-form-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.selected-items-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.selected-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+  gap: var(--space-sm);
+}
+
+.selected-item-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.selected-item-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-item-price {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.selected-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-control-inline {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.qty-btn-inline {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  padding: 2px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.qty-btn-inline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.qty-num-inline {
+  padding: 0 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-accent-light);
+  min-width: 20px;
+  text-align: center;
+}
+
+.selected-item-subtotal {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 50px;
+  text-align: right;
+}
+
+.item-remove-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.15s ease;
+}
+
+.item-remove-btn:hover {
+  color: var(--color-error);
+}
+
+.empty-items-picker-hint {
+  padding: var(--space-md);
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+}
+
+/* Quick picker container */
+.item-picker-container {
+  background: rgba(13, 47, 55, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+}
+
+.item-picker-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.picker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.picker-chip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+.picker-chip.picked {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+}
+
+.picker-chip-name {
+  font-weight: 500;
+}
+
+.picker-chip-price {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.picker-chip-check {
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.veg-dot-inline {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.veg-dot-inline.veg {
+  background-color: var(--color-success);
+  box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+}
+
+.veg-dot-inline.non-veg {
+  background-color: var(--color-error);
+  box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+}
+
+/* Pricing summary card */
+.combo-pricing-summary {
+  background: rgba(13, 47, 55, 0.65);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.summary-val {
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.summary-val.highlight {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-accent-light);
+}
+
+.summary-val.savings {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.savings-row {
+  background: rgba(34, 197, 94, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Image preview section */
+.combo-image-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.form-hint {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: -4px;
+  margin-bottom: var(--space-xs);
+  line-height: 1.4;
+}
+
+.combo-preview-container {
+  margin-top: var(--space-sm);
+}
+
+.combo-preview-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+}
+
+.combo-preview-card.fallback {
+  border-style: dashed;
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.combo-preview-img {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.combo-preview-label {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}

@@ -1,0 +1,92 @@
+/* ============================================================
+   ComboSection — Top-featured deal section on ordering page
+   ============================================================ */
+
+.combo-section {
+  padding: var(--space-lg) 0 var(--space-md);
+  margin-top: var(--space-md);
+}
+
+/* Header */
+.combo-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding: 0 var(--space-lg);
+}
+
+.combo-section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.combo-fire-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 100, 0, 0.6));
+  animation: pulse-fire 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-fire {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 100, 0, 0.5)); }
+  50%       { transform: scale(1.15); filter: drop-shadow(0 0 14px rgba(255, 140, 0, 0.9)); }
+}
+
+.combo-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: var(--color-white);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.combo-section-subtitle {
+  font-size: 0.78rem;
+  color: var(--color-accent);
+  margin: 0;
+  line-height: 1;
+  font-weight: 500;
+}
+
+/* Horizontal Scroll Track */
+.combo-scroll-track {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  padding: var(--space-sm) var(--space-lg) var(--space-md);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.combo-scroll-track::-webkit-scrollbar {
+  display: none;
+}
+
+.combo-scroll-track > * {
+  scroll-snap-align: start;
+}
+
+/* Fade-out right edge hint */
+.combo-section::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+}
+
+/* Responsive: on small screens let cards be a bit narrower */
+@media (max-width: 480px) {
+  .combo-section-header {
+    padding: 0 var(--space-md);
+  }
+
+  .combo-scroll-track {
+    padding: var(--space-sm) var(--space-md) var(--space-md);
+  }
+}

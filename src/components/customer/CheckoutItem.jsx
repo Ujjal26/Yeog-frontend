@@ -11,7 +11,20 @@ export default function CheckoutItem({ item }) {
         <img src={item.image} alt={item.name} />
       </div>
       <div className="checkout-item-info">
-        <h4 className="checkout-item-name">{item.name}</h4>
+        <h4 className="checkout-item-name">
+          {item.isCombo && <span className="combo-tag">🎁 </span>}
+          {item.name}
+        </h4>
+        {/* Sub-items breakdown for combo orders */}
+        {item.isCombo && item.comboItems && item.comboItems.length > 0 && (
+          <ul className="checkout-combo-items">
+            {item.comboItems.map((ci, idx) => (
+              <li key={idx} className="checkout-combo-item">
+                ↳ {ci.qty > 1 ? `${ci.qty}× ` : ''}{ci.name}
+              </li>
+            ))}
+          </ul>
+        )}
         <span className="checkout-item-unit-price">{formatPrice(item.price)} each</span>
       </div>
       <div className="checkout-item-controls">
@@ -46,3 +59,4 @@ export default function CheckoutItem({ item }) {
     </div>
   );
 }
+

@@ -8,6 +8,8 @@ import { useCart } from "../../context/CartContext";
 import Navbar from "../../components/common/Navbar";
 import MenuCategory from "../../components/customer/MenuCategory";
 import CartSummary from "../../components/customer/CartSummary";
+import ComboSection from "../../components/customer/ComboSection";
+import { useCombo } from "../../context/ComboContext";
 import { useOrders } from "../../context/OrderContext";
 import "./OrderingPage.css";
 
@@ -20,6 +22,7 @@ export default function OrderingPage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const { menuItems, menuCategories } = useMenu();
+  const { combos } = useCombo();
   const { tableNumber, tableName, setTable, clearCart } = useCart();
   const { orders } = useOrders();
   const navigate = useNavigate();
@@ -159,6 +162,15 @@ export default function OrderingPage() {
       {/* Sticky Category Nav */}
       <div className="category-nav glass" id="category-nav">
         <div className="category-nav-inner container">
+          {/* Combos pill — scrolls to the combo section (only when combos exist) */}
+          {!isViewOnly && combos.length > 0 && (
+            <button
+              className="category-pill"
+              onClick={() => scrollToCategory('combos')}
+            >
+              🔥 Combos
+            </button>
+          )}
           {menuCategories.map((cat) => (
             <button
               key={cat}
@@ -195,6 +207,9 @@ export default function OrderingPage() {
           <span>This is a <strong>display menu</strong> — ordering is not available at this table.</span>
         </div>
       )}
+
+      {/* Top-featured Combos & Deals section */}
+      {!isViewOnly && <ComboSection viewOnly={false} />}
 
       {/* Current Orders Section — hidden for view-only tables */}
       {!isViewOnly && currentTableOrders.length > 0 && (

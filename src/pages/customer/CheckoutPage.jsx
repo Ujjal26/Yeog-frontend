@@ -30,7 +30,18 @@ export default function CheckoutPage() {
     const order = {
       id: newOrderId,
       tableNumber: tableNumber || 0,
-      items: items.map((i) => ({ name: i.name, qty: i.qty, price: i.price })),
+      items: items.map((i) => ({
+        id: i.id,
+        name: i.name,
+        description: i.description || '',
+        qty: i.qty,
+        price: i.price,
+        // Pass combo breakdown through so kitchen can see constituent dishes
+        ...(i.isCombo && {
+          isCombo: true,
+          comboItems: i.comboItems || [],
+        }),
+      })),
       status: 'Received',
       timestamp: new Date().toISOString(),
       total: total,

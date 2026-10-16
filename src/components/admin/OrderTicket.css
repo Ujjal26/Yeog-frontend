@@ -154,3 +154,117 @@
   color: var(--color-white);
   border: 2px solid var(--color-success);
 }
+
+/* Combo breakdown styles */
+.ticket-item-group {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  padding: 2px 4px;
+}
+
+.ticket-item-group.ticket-item-selected {
+  background: rgba(245, 158, 11, 0.12);
+  outline: 1.5px solid #fbbf24;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+}
+
+.ticket-combo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  padding: 1px 7px;
+  border-radius: var(--radius-sm);
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  letter-spacing: 0.02em;
+}
+
+.ticket-combo-breakdown {
+  margin: 4px 0 6px 20px;
+  padding: 5px 8px;
+  border-left: 2px solid rgba(245, 158, 11, 0.5);
+  background: rgba(245, 158, 11, 0.05);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: background 0.15s ease;
+}
+
+.ticket-combo-breakdown.clickable:hover {
+  background: rgba(245, 158, 11, 0.12);
+  cursor: pointer;
+}
+
+.ticket-combo-breakdown-done {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.ticket-combo-breakdown-header {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.ticket-combo-subitem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ticket-combo-subitem-arrow {
+  color: #fbbf24;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ticket-combo-subitem-qty {
+  font-weight: 700;
+  color: #fde047;
+  min-width: 20px;
+}
+
+.ticket-combo-subitem-name {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ticket-combo-subitem-hint {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+.ticket-sub-veg-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.ticket-sub-veg-dot.veg {
+  background: var(--color-success);
+  box-shadow: 0 0 4px rgba(34, 197, 94, 0.6);
+}
+
+.ticket-sub-veg-dot.non-veg {
+  background: var(--color-error);
+  box-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
+}
