@@ -19,18 +19,25 @@ function cartReducer(state, action) {
       };
 
     case 'ADD_ITEM': {
+      const addQty = action.payload.qty || 1;
       const existing = state.items.find((i) => i.id === action.payload.id);
       if (existing) {
         return {
           ...state,
           items: state.items.map((i) =>
-            i.id === action.payload.id ? { ...i, qty: i.qty + 1 } : i
+            i.id === action.payload.id
+              ? {
+                  ...i,
+                  qty: i.qty + addQty,
+                  ...(action.payload.note && { note: action.payload.note }),
+                }
+              : i
           ),
         };
       }
       return {
         ...state,
-        items: [...state.items, { ...action.payload, qty: 1 }],
+        items: [...state.items, { ...action.payload, qty: addQty }],
       };
     }
 

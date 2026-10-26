@@ -1,19 +1,139 @@
 /* ============================================================
-   ORDERING PAGE — Dark Teal Theme
+   ORDERING PAGE — Cinematic Dark Theme
    ============================================================ */
 
 .ordering-page {
-  background: linear-gradient(135deg, #092328 0%, #0d2f37 60%, #092328 100%);
+  background: var(--color-ink-950);
   min-height: 100svh;
+  color: var(--color-mist-100);
+  padding-bottom: 24px;
 }
 
-/* Sticky Category Nav */
+/* ── Filter & Search Bar ── */
+.menu-filter-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 0 14px;
+  background: rgba(14, 14, 18, 0.96);
+}
+
+.filter-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.menu-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 0.95rem;
+  color: var(--color-mist-400);
+  pointer-events: none;
+}
+
+.menu-search-input {
+  width: 100%;
+  height: 54px;
+  padding: 10px 36px 10px 48px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  color: var(--color-white);
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
+}
+
+.menu-search-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-ember-400);
+  box-shadow: 0 0 16px rgba(236, 28, 46, 0.25);
+}
+
+.menu-search-input::placeholder {
+  color: var(--color-mist-400);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--color-mist-400);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.search-clear-btn:hover {
+  color: var(--color-white);
+}
+
+/* Dietary Filter Pills */
+.dietary-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.diet-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: var(--radius-xl);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-mist-300);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.diet-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+}
+
+.diet-pill.active {
+  background: var(--color-primary);
+  color: var(--color-ink-950);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 4px 16px rgba(236, 28, 46, 0.4);
+}
+
+.veg-dot-pill {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.non-veg-dot-pill {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+/* ── Sticky Category Nav ── */
 .category-nav {
   position: sticky;
-  top: 0;
-  z-index: 1000;
-  padding: var(--space-md) 0;
-  background: rgba(9, 35, 40, 0.8);
+  top: 64px;
+  z-index: 100;
+  padding: 0 0 12px;
+  background: rgba(10, 10, 12, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -21,7 +141,7 @@
 
 .category-nav-inner {
   display: flex;
-  gap: var(--space-sm);
+  gap: 8px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -32,11 +152,11 @@
 }
 
 .category-pill {
-  padding: 8px 20px;
+  padding: 10px 18px;
   border-radius: var(--radius-xl);
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-mist-300);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
@@ -50,86 +170,51 @@
   color: var(--color-white);
   border-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(138, 2, 2, 0.4);
+  box-shadow: 0 4px 16px rgba(236, 28, 46, 0.4);
 }
 
 .category-pill.active {
   background: var(--color-primary);
   color: var(--color-white);
   border-color: var(--color-primary);
-  box-shadow: 0 4px 16px rgba(138, 2, 2, 0.4);
+  box-shadow: 0 4px 16px rgba(236, 28, 46, 0.4);
 }
 
-/* Main content */
-.ordering-main {
-  padding-top: var(--space-xl);
-  padding-bottom: var(--space-xl);
-}
-
-/* Cart spacer to prevent content hidden behind fixed cart */
-.cart-spacer {
-  height: 90px;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .category-nav {
-    top: 0;
-    padding: var(--space-sm) 0;
-  }
-
-  .category-pill {
-    padding: 6px 14px;
-    font-size: 0.82rem;
-  }
-}
-
-/* ============================================================
-   NO TABLE FALLBACK
-   ============================================================ */
-
-.no-table-message {
+/* ── Filter Summary Bar ── */
+.filter-summary-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: calc(100svh - 80px);
-  padding: var(--space-xl);
+  justify-content: space-between;
+  padding-top: var(--space-md);
+  font-size: 0.88rem;
+  color: var(--color-mist-300);
 }
 
-.no-table-card {
-  text-align: center;
-  padding: var(--space-2xl) var(--space-xl);
-  border-radius: var(--radius-lg, 16px);
-  max-width: 420px;
-  width: 100%;
-  background: rgba(13, 47, 55, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.filter-reset-btn {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-ember-400);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.no-table-icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: var(--space-md);
+/* ── View Only Banner ── */
+.view-only-banner {
+  background: rgba(212, 165, 116, 0.12);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: var(--radius-md);
+  margin-top: 12px;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--color-accent-light);
 }
 
-.no-table-card h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: var(--space-sm);
-  color: var(--color-white);
-}
-
-.no-table-card p {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.5;
-}
-
-/* ============================================================
-   CURRENT ORDERS SECTION
-   ============================================================ */
+/* ── Current Placed Orders ── */
 .current-orders-section {
   margin-top: var(--space-xl);
   margin-bottom: var(--space-xl);
@@ -137,91 +222,181 @@
 
 .current-orders-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-md);
 }
 
 .current-orders-header h3 {
+  font-family: var(--font-heading);
   font-size: 1.25rem;
-  font-weight: 700;
   color: var(--color-white);
-  margin: 0;
 }
 
 .current-orders-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-md);
 }
 
-.current-order-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: var(--space-sm);
-  padding-top: var(--space-sm);
-  border-top: 1px dashed rgba(255, 255, 255, 0.12);
-}
-
 .current-order-card {
-  padding: var(--space-md) var(--space-lg);
-  border-left: 4px solid var(--color-primary);
-  background: rgba(13, 47, 55, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  padding: var(--space-md);
   border-radius: var(--radius-md);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(28, 22, 22, 0.7);
+  border: 1px solid rgba(236, 28, 46, 0.25);
 }
 
 .current-order-card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-sm);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.current-order-card-header .order-id {
+.order-id {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--color-mist-300);
   font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--color-white);
 }
 
 .current-order-items {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 4px;
+  margin-bottom: var(--space-sm);
 }
 
 .current-order-item {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+  color: var(--color-mist-100);
 }
 
 .current-order-item .item-qty {
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-mist-400);
+  font-size: 0.78rem;
 }
 
-/* Ultra-small Mobile (e.g., Galaxy S8, old iPhones at 360px/375px) */
-@media (max-width: 380px) {
-  .ordering-grid {
-    gap: var(--space-sm);
+.current-order-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+  color: var(--color-accent-light);
+  padding-top: var(--space-xs);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Main Ordering Section ── */
+.ordering-main {
+  padding-top: 24px;
+  padding-bottom: var(--space-2xl);
+}
+
+.empty-catalog-card {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.empty-catalog-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: var(--space-md);
+}
+
+.empty-catalog-card h3 {
+  font-size: 1.35rem;
+  color: var(--color-white);
+  margin-bottom: var(--space-xs);
+}
+
+.empty-catalog-card p {
+  font-size: 0.9rem;
+  color: var(--color-mist-400);
+}
+
+/* Cart spacer to prevent overlap with bottom summary */
+.cart-spacer {
+  height: 100px;
+}
+
+/* Fallback card */
+.no-table-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100svh - 64px);
+  padding: var(--space-xl);
+}
+
+.no-table-card {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  max-width: 440px;
+  width: 100%;
+}
+
+.no-table-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: var(--space-md);
+}
+
+.no-table-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-white);
+}
+
+.no-table-card p {
+  font-size: 0.9rem;
+  color: var(--color-mist-400);
+  line-height: 1.6;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .category-nav {
+    top: 56px;
+    padding: 8px 0;
   }
-  .category-nav-inner {
-    gap: var(--space-xs);
-  }
+
   .category-pill {
     padding: 6px 14px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
-  .current-order-card {
-    padding: var(--space-sm) var(--space-md);
+
+  .filter-bar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .dietary-filter-pills {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .menu-filter-bar {
+    padding-top: 16px;
+  }
+
+  .menu-search-wrap {
+    min-width: 0;
+  }
+
+  .category-nav {
+    top: 70px;
+  }
+
+  .ordering-main {
+    padding-top: 20px;
   }
 }

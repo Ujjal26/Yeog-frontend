@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useSocket } from '../../context/SocketContext';
 
 /**
@@ -7,9 +8,22 @@ import { useSocket } from '../../context/SocketContext';
  */
 export default function GlobalConnectionStatus() {
   const { isConnected } = useSocket();
+  const [isDesktop, setIsDesktop] = useState(() =>
+    window.matchMedia('(min-width: 769px)').matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 769px)');
+    const handleChange = (event) => setIsDesktop(event.matches);
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  const StatusRoot = isDesktop ? 'span' : 'div';
 
   return (
-    <div
+    <StatusRoot
       className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}
       role="status"
       aria-live="polite"
@@ -18,6 +32,6 @@ export default function GlobalConnectionStatus() {
       <span className="status-text">
         {isConnected ? 'Live' : 'Connecting…'}
       </span>
-    </div>
+    </StatusRoot>
   );
 }

@@ -25,6 +25,12 @@ export default function CheckoutItem({ item }) {
             ))}
           </ul>
         )}
+        {/* Special Instructions / Note */}
+        {item.note && (
+          <p className="checkout-item-note">
+            📝 Note: <em>{item.note}</em>
+          </p>
+        )}
         <span className="checkout-item-unit-price">{formatPrice(item.price)} each</span>
       </div>
       <div className="checkout-item-controls">

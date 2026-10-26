@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable no-unused-vars */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useTableSocket } from "../../context/TableSocketContext";
 import { useMenu } from "../../context/MenuContext";
@@ -9,6 +8,7 @@ import Navbar from "../../components/common/Navbar";
 import MenuCategory from "../../components/customer/MenuCategory";
 import CartSummary from "../../components/customer/CartSummary";
 import ComboSection from "../../components/customer/ComboSection";
+import ProductDetailModal from "../../components/customer/ProductDetailModal";
 import { useCombo } from "../../context/ComboContext";
 import { useOrders } from "../../context/OrderContext";
 import "./OrderingPage.css";
@@ -20,38 +20,39 @@ export default function OrderingPage() {
 
   const [isVerifying, setIsVerifying] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dietaryFilter, setDietaryFilter] = useState("all"); // 'all' | 'veg' | 'non-veg'
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const { menuItems, menuCategories } = useMenu();
   const { combos } = useCombo();
-  const { tableNumber, tableName, setTable, clearCart } = useCart();
+  const { tableNumber, tableName, setTable, addItem } = useCart();
   const { orders } = useOrders();
   const navigate = useNavigate();
-  const { socket, isConnected } = useTableSocket();
+  const { isConnected } = useTableSocket();
 
   // Tables named exactly "Menu Table" are view-only display menus — ordering is disabled.
-  const isViewOnly = tableName?.trim().toLowerCase() === 'menu table';
+  const isViewOnly = tableName?.trim().toLowerCase() === "menu table";
 
   useEffect(() => {
-    const sessionToken = sessionStorage.getItem("yoeg_customer_token") || localStorage.getItem("yoeg_customer_token");
+    const sessionToken =
+      sessionStorage.getItem("yoeg_customer_token") ||
+      localStorage.getItem("yoeg_customer_token");
 
     if (sessionToken) {
       try {
-        // Decode JWT payload (basic frontend decode)
         const payload = JSON.parse(atob(sessionToken.split(".")[1]));
 
-        // Ensure they are strictly assigned to their locked table
-        // Fetch table name from the API so the navbar shows the right label
         fetch(
           `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/api/tables`
         )
           .then((r) => r.json())
           .then((tables) => {
-            const t = tables.find((t) => t.number === payload.tableNumber);
-            setTable(payload.tableNumber, t?.name || '');
+            const t = tables.find((tbl) => tbl.number === payload.tableNumber);
+            setTable(payload.tableNumber, t?.name || "");
           })
-          .catch(() => setTable(payload.tableNumber, ''));
+          .catch(() => setTable(payload.tableNumber, ""));
 
-        // If they manually tampered with the URL parameter, strip it or correct it
         if (
           urlTableNumber &&
           parseInt(urlTableNumber, 10) !== payload.tableNumber
@@ -62,8 +63,7 @@ export default function OrderingPage() {
         }
 
         setIsVerifying(false);
-      } catch (err) {
-        // Corrupted token, force re-verify
+      } catch {
         sessionStorage.removeItem("yoeg_customer_token");
         verifyNewScan();
       }
@@ -88,21 +88,19 @@ export default function OrderingPage() {
               tableNumber: urlTableNumber,
               qrToken: urlToken,
             }),
-          },
+          }
         );
 
         const data = await res.json();
         if (res.ok) {
           sessionStorage.setItem("yoeg_customer_token", data.token);
-          localStorage.setItem("yoeg_customer_token", data.token); // Persistent token for recovery
-          // data.table contains the full table object including name
-          setTable(parseInt(urlTableNumber, 10), data.table?.name || '');
-          // Strip the secret token from the URL so it can't be easily copied by onlookers
+          localStorage.setItem("yoeg_customer_token", data.token);
+          setTable(parseInt(urlTableNumber, 10), data.table?.name || "");
           navigate("/order", { replace: true });
         } else {
           setErrorMsg(data.message || "Invalid or Expired QR Code.");
         }
-      } catch (err) {
+      } catch {
         setErrorMsg("Network error verifying QR code.");
       }
       setIsVerifying(false);
@@ -110,16 +108,54 @@ export default function OrderingPage() {
   }, [urlTableNumber, urlToken, navigate, setTable]);
 
   const currentTableOrders = orders.filter(
-    (o) => o.tableNumber === parseInt(tableNumber, 10),
+    (o) => o.tableNumber === parseInt(tableNumber, 10)
   );
 
   const scrollToCategory = (category) => {
-    const el = document.getElementById(`category-${category.toLowerCase()}`);
+    const slug = category.toLowerCase().replace(/\s+/g, "-");
+    const el = document.getElementById(`category-${slug}`);
     if (el) {
-      const navHeight = 130;
+      const navHeight = 140;
       const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
       window.scrollTo({ top, behavior: "smooth" });
     }
+  };
+
+  // Filter items by search query and dietary filter
+  const filteredItems = useMemo(() => {
+    return menuItems.filter((item) => {
+      const matchesSearch =
+        !searchQuery.trim() ||
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesDiet =
+        dietaryFilter === "all" ||
+        (dietaryFilter === "veg" && item.isVeg) ||
+        (dietaryFilter === "non-veg" && !item.isVeg);
+
+      return matchesSearch && matchesDiet;
+    });
+  }, [menuItems, searchQuery, dietaryFilter]);
+
+  // Categories that have at least one matching item
+  const activeCategories = useMemo(() => {
+    return menuCategories.filter((cat) =>
+      filteredItems.some((item) => item.category === cat)
+    );
+  }, [menuCategories, filteredItems]);
+
+  const handleModalAddToCart = (item, qty, note) => {
+    addItem({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      description: item.description,
+      qty,
+      note,
+    });
   };
 
   if (isVerifying) {
@@ -127,7 +163,11 @@ export default function OrderingPage() {
       <div className="ordering-page">
         <Navbar variant="customer" />
         <div className="no-table-message container">
-          <h2>Securing Connection...</h2>
+          <div className="no-table-card card card-elevated">
+            <span className="no-table-icon">⏳</span>
+            <h2>Securing Connection...</h2>
+            <p>Connecting to your table session.</p>
+          </div>
         </div>
       </div>
     );
@@ -138,9 +178,17 @@ export default function OrderingPage() {
       <div className="ordering-page">
         <Navbar variant="customer" />
         <div className="no-table-message container">
-          <div className="no-table-card glass">
+          <div className="no-table-card card card-elevated">
             <span className="no-table-icon">🔒</span>
             <h2>{errorMsg || "Please scan a valid table QR code"}</h2>
+            <p>Your session could not be established. Please scan the QR code located on your table stand.</p>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate("/")}
+              style={{ marginTop: "var(--space-md)" }}
+            >
+              Back to Home
+            </button>
           </div>
         </div>
       </div>
@@ -151,35 +199,82 @@ export default function OrderingPage() {
     <div className="ordering-page">
       <Navbar variant="customer" tableNumber={tableNumber} tableName={tableName} />
 
-      {/* Connection Status Indicator — dot only */}
+      {/* Connection Status Indicator */}
       <div
         className={`connection-status ${isConnected ? "connected" : "disconnected"}`}
-        title={isConnected ? "Live" : "Connecting…"}
+        title={isConnected ? "Live Connection" : "Connecting to Kitchen…"}
       >
         <span className="status-dot"></span>
       </div>
 
       {/* Sticky Category Nav */}
       <div className="category-nav glass" id="category-nav">
+        {/* Search and Filters Header */}
+        <div className="menu-filter-bar">
+          <div className="container filter-bar-inner">
+            {/* Search Input */}
+            <div className="menu-search-wrap">
+              <span className="search-icon">🔍</span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search espresso, pizza, burgers, coolers..."
+                className="menu-search-input"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="search-clear-btn"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* Dietary Filter Tabs */}
+            <div className="dietary-filter-pills">
+              <button
+                className={`diet-pill ${dietaryFilter === "all" ? "active" : ""}`}
+                onClick={() => setDietaryFilter("all")}
+              >
+                All Items
+              </button>
+              <button
+                className={`diet-pill ${dietaryFilter === "veg" ? "active" : ""}`}
+                onClick={() => setDietaryFilter("veg")}
+              >
+                <span className="veg-dot-pill" /> Veg
+              </button>
+              <button
+                className={`diet-pill ${dietaryFilter === "non-veg" ? "active" : ""}`}
+                onClick={() => setDietaryFilter("non-veg")}
+              >
+                <span className="non-veg-dot-pill" /> Non-Veg
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="category-nav-inner container">
-          {/* Combos pill — scrolls to the combo section (only when combos exist) */}
-          {!isViewOnly && combos.length > 0 && (
+          {/* Combos pill */}
+          {!isViewOnly && combos.length > 0 && !searchQuery && dietaryFilter === "all" && (
             <button
               className="category-pill"
-              onClick={() => scrollToCategory('combos')}
+              onClick={() => scrollToCategory("combos")}
             >
-              🔥 Combos
+              🔥 Combos & Deals
             </button>
           )}
-          {menuCategories.map((cat) => (
+
+          {activeCategories.map((cat) => (
             <button
               key={cat}
               className="category-pill"
               onClick={() => scrollToCategory(cat)}
             >
-              {cat === "Snacks" && ""}
-              {cat === "Beverages" && ""}
-              {cat === "Pastries" && ""}
               {cat}
             </button>
           ))}
@@ -188,44 +283,48 @@ export default function OrderingPage() {
 
       {/* View-only banner for Menu Table */}
       {isViewOnly && (
-        <div
-          style={{
-            background: 'linear-gradient(135deg, rgba(var(--color-primary-rgb, 99,102,241),0.12), rgba(var(--color-primary-rgb, 99,102,241),0.06))',
-            border: '1px solid rgba(99,102,241,0.25)',
-            borderRadius: '12px',
-            margin: '0.75rem 1rem 0',
-            padding: '0.65rem 1rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            fontSize: '0.82rem',
-            color: 'var(--color-text-light)',
-            fontWeight: 500,
-          }}
-        >
+        <div className="view-only-banner container">
           <span>📋</span>
           <span>This is a <strong>display menu</strong> — ordering is not available at this table.</span>
         </div>
       )}
 
-      {/* Top-featured Combos & Deals section */}
-      {!isViewOnly && <ComboSection viewOnly={false} />}
+      {/* Filter Results Summary (when searching or filtered) */}
+      {(searchQuery || dietaryFilter !== "all") && (
+        <div className="filter-summary-bar container">
+          <span>
+            Found <strong>{filteredItems.length}</strong> matching dish{filteredItems.length !== 1 ? "es" : ""}
+          </span>
+          <button
+            className="filter-reset-btn"
+            onClick={() => {
+              setSearchQuery("");
+              setDietaryFilter("all");
+            }}
+          >
+            Reset Filters
+          </button>
+        </div>
+      )}
 
-      {/* Current Orders Section — hidden for view-only tables */}
+      {/* Top-featured Combos & Deals (only when not searching/filtering) */}
+      {!isViewOnly && !searchQuery && dietaryFilter === "all" && (
+        <ComboSection viewOnly={false} />
+      )}
+
+      {/* Current Orders Section — active placed orders */}
       {!isViewOnly && currentTableOrders.length > 0 && (
         <div className="current-orders-section container animate-slideDown">
           <div className="current-orders-header">
-            <h3>Ordered Items</h3>
-            <span className="badge badge-primary">Already placed</span>
+            <h3>Active Table Orders</h3>
+            <span className="badge badge-primary">Sent to Kitchen</span>
           </div>
           <div className="current-orders-list">
             {currentTableOrders.map((order) => (
               <div key={order.id} className="current-order-card card">
                 <div className="current-order-card-header">
-                  <span className="order-id">Order {order.id}</span>
-                  <span
-                    className={`order-status badge badge-${order.status.toLowerCase()}`}
-                  >
+                  <span className="order-id">Order #{order.id}</span>
+                  <span className={`order-status badge badge-${order.status.toLowerCase()}`}>
                     {order.status}
                   </span>
                 </div>
@@ -239,7 +338,7 @@ export default function OrderingPage() {
                 </div>
                 <div className="current-order-card-footer">
                   <span className="order-total">
-                    Total: <strong>₹ {order.total}</strong>
+                    Total: <strong>₹{order.total}</strong>
                   </span>
                 </div>
               </div>
@@ -248,50 +347,28 @@ export default function OrderingPage() {
         </div>
       )}
 
-      {/* Menu Sections */}
+      {/* Menu Categories and Product Grid */}
       <main className="ordering-main container">
-        {menuItems.length === 0 ? (
-          <div
-            style={{
-              padding: "4rem 1rem",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              className="no-table-card glass"
-              style={{
-                width: "100%",
-                maxWidth: "400px",
-                textAlign: "center",
-                padding: "3rem 2rem",
+        {filteredItems.length === 0 ? (
+          <div className="empty-catalog-card card card-elevated">
+            <span className="empty-catalog-icon">🍽️</span>
+            <h3>No matching dishes found</h3>
+            <p>Try modifying your search or clearing dietary filters.</p>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                setSearchQuery("");
+                setDietaryFilter("all");
               }}
+              style={{ marginTop: "var(--space-md)" }}
             >
-              <span
-                className="no-table-icon"
-                style={{
-                  fontSize: "4rem",
-                  display: "block",
-                  marginBottom: "1rem",
-                }}
-              >
-                🍽️
-              </span>
-              <h2>No items in the menu currently</h2>
-              <p
-                style={{
-                  color: "var(--color-text-light)",
-                  marginTop: "0.5rem",
-                }}
-              >
-                Our menu is being updated. Please check back shortly!
-              </p>
-            </div>
+              View Full Menu
+            </button>
           </div>
         ) : (
-          menuCategories.map((category) => {
-            const categoryItems = menuItems.filter(
-              (item) => item.category === category,
+          activeCategories.map((category) => {
+            const categoryItems = filteredItems.filter(
+              (item) => item.category === category
             );
             return (
               <MenuCategory
@@ -299,16 +376,26 @@ export default function OrderingPage() {
                 category={category}
                 items={categoryItems}
                 viewOnly={isViewOnly}
+                onOpenDetails={(item) => setSelectedProduct(item)}
               />
             );
           })
         )}
       </main>
 
-      {/* Bottom Cart Summary — hidden for view-only tables */}
+      {/* Product Detail Sheet Modal */}
+      <ProductDetailModal
+        item={selectedProduct}
+        isOpen={Boolean(selectedProduct)}
+        onClose={() => setSelectedProduct(null)}
+        onAddToCart={handleModalAddToCart}
+        viewOnly={isViewOnly}
+      />
+
+      {/* Bottom Cart Summary Bar */}
       {!isViewOnly && <CartSummary />}
 
-      {/* Spacer for cart summary */}
+      {/* Spacer so bottom items aren't hidden behind the floating cart */}
       <div className="cart-spacer"></div>
     </div>
   );

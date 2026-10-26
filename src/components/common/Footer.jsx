@@ -5,15 +5,16 @@ export default function Footer() {
     <footer className="footer" id="site-footer">
       <div className="footer-inner container">
         <div className="footer-grid">
-          {/* Brand */}
           <div className="footer-brand">
             <div className="footer-logo">
-              <span className="logo-text-footer">
-                Yeog Cafe
+              <span className="logo-spark">✦</span>
+              <span className="logo-brand">
+                <span className="logo-yoeg">yoeg</span>
+                <span className="logo-cafe">cafe</span>
               </span>
             </div>
             <p className="footer-tagline">
-              You Eat Only Good...!!!
+              You Only Eat Good..!!!
             </p>
           </div>
 

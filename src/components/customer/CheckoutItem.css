@@ -122,6 +122,14 @@
   color: var(--color-error);
 }
 
+.checkout-item-note {
+  font-size: 0.78rem;
+  color: var(--color-accent-light);
+  margin-top: 3px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
 @media (max-width: 540px) {
   .checkout-item {
     flex-wrap: wrap;

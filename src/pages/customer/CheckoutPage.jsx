@@ -36,6 +36,7 @@ export default function CheckoutPage() {
         description: i.description || '',
         qty: i.qty,
         price: i.price,
+        ...(i.note && { note: i.note }),
         // Pass combo breakdown through so kitchen can see constituent dishes
         ...(i.isCombo && {
           isCombo: true,

@@ -7,31 +7,31 @@
   display: flex;
   flex-direction: column;
   background: linear-gradient(
-    135deg,
-    rgba(18, 55, 40, 0.88) 0%,
-    rgba(13, 47, 55, 0.88) 100%
+    145deg,
+    rgba(32, 20, 22, 0.88) 0%,
+    rgba(18, 18, 22, 0.88) 100%
   );
-  border: 1px solid rgba(212, 165, 116, 0.3);
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(212, 165, 116, 0.35);
+  border-radius: var(--radius-card);
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(212, 165, 116, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: var(--transition);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 165, 116, 0.2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.4s var(--ease-cinematic), box-shadow 0.4s var(--ease-cinematic), border-color 0.4s;
   animation: slideUp 0.5s ease-out both;
-  min-width: 260px;
-  max-width: 300px;
+  min-width: 270px;
+  max-width: 310px;
   flex-shrink: 0;
 }
 
 .combo-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(212, 165, 116, 0.35);
-  border-color: rgba(212, 165, 116, 0.5);
+  box-shadow: 0 20px 48px rgba(236, 28, 46, 0.25), 0 0 0 1px rgba(212, 165, 116, 0.5);
+  border-color: rgba(212, 165, 116, 0.6);
 }
 
 .combo-card.combo-sold-out {
-  opacity: 0.72;
+  opacity: 0.65;
 }
 
 .combo-card.combo-sold-out:hover {
@@ -44,28 +44,28 @@
   top: 10px;
   right: 10px;
   z-index: 3;
-  background: linear-gradient(135deg, #8a0202, #b30303);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: #fff;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 4px 10px;
   border-radius: var(--radius-lg);
   letter-spacing: 0.03em;
-  box-shadow: 0 2px 12px rgba(138, 2, 2, 0.6);
+  box-shadow: 0 4px 14px rgba(236, 28, 46, 0.6);
   white-space: nowrap;
 }
 
 .combo-savings-pct {
-  opacity: 0.88;
+  opacity: 0.9;
 }
 
-/* ---- Image ---- */
+/* ---- Image Wrap ---- */
 .combo-image-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .combo-image {
@@ -73,7 +73,7 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 0.4s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease, transform 0.6s var(--ease-cinematic);
 }
 
 .combo-image.loaded {
@@ -84,25 +84,38 @@
   transform: scale(1.06);
 }
 
+/* Sold-out overlay */
+.combo-card .sold-out-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 12, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
 /* ---- Info ---- */
 .combo-info {
-  padding: var(--space-md);
   display: flex;
   flex-direction: column;
+  padding: var(--space-md);
   flex: 1;
-  gap: 6px;
+  gap: var(--space-xs);
 }
 
 .combo-name {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   color: var(--color-white);
+  line-height: 1.25;
   margin: 0;
 }
 
 .combo-desc {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.82rem;
+  color: var(--color-mist-400);
   line-height: 1.5;
   margin: 0;
   display: -webkit-box;
@@ -111,36 +124,35 @@
   overflow: hidden;
 }
 
-/* ---- Item Chips ---- */
+/* ---- Constituent Item Chips ---- */
 .combo-item-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-top: 2px;
+  margin: 4px 0 8px;
 }
 
 .combo-chip {
-  display: inline-block;
-  background: rgba(212, 165, 116, 0.12);
-  border: 1px solid rgba(212, 165, 116, 0.3);
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 500;
   color: var(--color-accent-light);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: var(--radius-lg);
-  white-space: nowrap;
-  letter-spacing: 0.02em;
+  background: rgba(212, 165, 116, 0.12);
+  border: 1px solid rgba(212, 165, 116, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+  line-height: 1.4;
 }
 
-/* ---- Footer: Pricing + Controls ---- */
+/* ---- Footer & Pricing ---- */
 .combo-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-sm);
   margin-top: auto;
-  padding-top: var(--space-sm);
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: var(--space-xs);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .combo-pricing {
@@ -150,20 +162,22 @@
 }
 
 .combo-original-price {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.38);
+  font-size: 0.78rem;
+  color: var(--color-mist-400);
   text-decoration: line-through;
+  line-height: 1;
 }
 
 .combo-price {
-  font-size: 1.15rem;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--color-accent-light);
+  line-height: 1.1;
 }
 
 .combo-viewonly-label {
   font-size: 0.72rem;
-  color: var(--color-text-light);
+  color: var(--color-mist-400);
   font-style: italic;
-  opacity: 0.7;
 }
