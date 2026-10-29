@@ -108,12 +108,16 @@ export default function EditOrderModal({ order, tableName, onClose, onSave, sock
           }),
         });
 
+        // BUG-13 FIX: Read the response body exactly once, then branch on res.ok.
+        // The old code called res.json() inside the !res.ok branch AND again after
+        // it, causing "body used already" errors because a Response body stream can
+        // only be consumed once. Now we read it once and handle both cases.
+        const result = await res.json();
+
         if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.message || 'Failed to update item');
+          throw new Error(result.message || 'Failed to update item');
         }
 
-        const result = await res.json();
         latestOrder = result.order;
         orderDeleted = result.deleted;
 

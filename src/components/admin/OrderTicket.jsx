@@ -90,6 +90,15 @@ export default function OrderTicket({ order, tableName, onAction, onEdit, onItem
                   <span className="ticket-item-qty">{item.qty}×</span>
                   <span className="ticket-item-name">
                     {item.name}
+                    {(item.note || item.specialInstructions) && (
+                      <span
+                        className="ticket-item-star"
+                        title={`Special Instruction: ${item.note || item.specialInstructions}`}
+                        aria-label="Has special instructions"
+                      >
+                        ★
+                      </span>
+                    )}
                     {isCombo && (
                       <span className="ticket-combo-badge">
                         🎁 Combo ({effectiveComboItems.length})
@@ -134,6 +143,15 @@ export default function OrderTicket({ order, tableName, onAction, onEdit, onItem
                           </span>
                           <span className="ticket-combo-subitem-name">
                             {sub.name}
+                            {(sub.note || sub.specialInstructions) && (
+                              <span
+                                className="ticket-item-star"
+                                title={`Special Instruction: ${sub.note || sub.specialInstructions}`}
+                                aria-label="Has special instructions"
+                              >
+                                ★
+                              </span>
+                            )}
                             {item.qty > 1 && (
                               <span className="ticket-combo-subitem-hint">
                                 ({sub.qty}× each)

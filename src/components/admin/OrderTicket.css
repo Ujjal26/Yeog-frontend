@@ -98,6 +98,32 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
+.ticket-item-star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbbf24;
+  font-size: 0.95rem;
+  margin-left: 6px;
+  line-height: 1;
+  text-shadow: 0 0 6px rgba(251, 191, 36, 0.6);
+  animation: ticketStarPulse 2s ease-in-out infinite;
+  cursor: help;
+  vertical-align: middle;
+}
+
+@keyframes ticketStarPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.95);
+  }
+}
+
 .ticket-item-price {
   color: rgba(255, 255, 255, 0.45);
   font-size: 0.82rem;

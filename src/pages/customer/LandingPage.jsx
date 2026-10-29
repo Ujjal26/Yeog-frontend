@@ -43,13 +43,11 @@ export default function LandingPage() {
   const [tableModal, setTableModal] = useState(false);
   const [menuTableLink, setMenuTableLink] = useState("");
 
-  // Auto-redirect to active session if returning user
-  useEffect(() => {
-    const token = localStorage.getItem("yoeg_customer_token");
-    if (token) {
-      navigate("/order", { replace: true });
-    }
-  }, [navigate]);
+  // BUG-08 FIX: Removed unconditional redirect to /order when 'yoeg_customer_token' exists.
+  // The old code permanently locked returning users out of the landing page — they could
+  // never see the cafe story, hours, or ambiance without clearing all site storage.
+  // Customers can now freely visit the homepage; they are redirected only when they
+  // explicitly click "Explore Menu" or "Order Now" with a valid table QR in the URL.
 
   useEffect(() => {
     let isMounted = true;
@@ -107,12 +105,18 @@ export default function LandingPage() {
     const validation = isValidTableAccess(params);
 
     if (validation.valid) {
-      navigate(`/order?table=${validation.tableNumber}`);
+      // BUG-07 FIX: Pass the token through to /order so the QR validate-qr endpoint
+      // can authenticate the session. The old code navigated to /order?table=X and
+      // dropped the token, causing session creation to fail for all valid QR codes.
+      const query = validation.token
+        ? `/order?table=${validation.tableNumber}&token=${encodeURIComponent(validation.token)}`
+        : `/order?table=${validation.tableNumber}`;
+      navigate(query);
     } else if (!params.table) {
       // No QR params (direct visit) → show table selector modal
       setTableModal(true);
     } else {
-      // Has QR params but they are invalid or table is closed
+      // Has QR params but they are invalid
       setErrorModal({ open: true, message: validation.error });
     }
   };

@@ -38,86 +38,32 @@ function App() {
               <Route path="/checkout" element={<CheckoutPage />} />
             </Route>
 
-            {/* Admin Routes (Password Protected + Socket Connected) */}
+            {/*
+              BUG-11 FIX: Admin + Kitchen routes now share a single <SocketProvider> via
+              a parent layout route. Previously, each route had its own independent
+              <SocketProvider>, which caused the WebSocket to disconnect and reconnect
+              on every tab navigation. During the reconnect window, real-time order
+              tickets were dropped. Now the socket connection persists for the full
+              admin session regardless of which sub-page is active.
+            */}
             <Route
-              path="/admin"
               element={
                 <AdminGate>
                   <SocketProvider>
                     <GlobalConnectionStatus />
-                    <AdminDashboard />
+                    <Outlet />
                   </SocketProvider>
                 </AdminGate>
               }
-            />
-            <Route
-              path="/admin/orders"
-              element={
-                <AdminGate>
-                  <SocketProvider>
-                    <GlobalConnectionStatus />
-                    <LiveOrdersPage />
-                  </SocketProvider>
-                </AdminGate>
-              }
-            />
-            <Route
-              path="/admin/menu"
-              element={
-                <AdminGate>
-                  <SocketProvider>
-                    <GlobalConnectionStatus />
-                    <MenuEditorPage />
-                  </SocketProvider>
-                </AdminGate>
-              }
-            />
-            <Route
-              path="/admin/tables"
-              element={
-                <AdminGate>
-                  <SocketProvider>
-                    <GlobalConnectionStatus />
-                    <TableManagementPage />
-                  </SocketProvider>
-                </AdminGate>
-              }
-            />
-            <Route
-              path="/admin/analytics"
-              element={
-                <AdminGate>
-                  <SocketProvider>
-                    <GlobalConnectionStatus />
-                    <SalesAnalysisPage />
-                  </SocketProvider>
-                </AdminGate>
-              }
-            />
-            
-            {/* Kitchen Route (Password Protected + Socket Connected) */}
-            <Route
-              path="/kitchen"
-              element={
-                <AdminGate>
-                  <SocketProvider>
-                    <GlobalConnectionStatus />
-                    <KitchenPage />
-                  </SocketProvider>
-                </AdminGate>
-              }
-            />
-            <Route
-              path="/admin/combos"
-              element={
-                <AdminGate>
-                  <SocketProvider>
-                    <GlobalConnectionStatus />
-                    <ComboEditorPage />
-                  </SocketProvider>
-                </AdminGate>
-              }
-            />
+            >
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/orders" element={<LiveOrdersPage />} />
+              <Route path="/admin/menu" element={<MenuEditorPage />} />
+              <Route path="/admin/tables" element={<TableManagementPage />} />
+              <Route path="/admin/analytics" element={<SalesAnalysisPage />} />
+              <Route path="/admin/combos" element={<ComboEditorPage />} />
+              <Route path="/kitchen" element={<KitchenPage />} />
+            </Route>
           </Routes>
           </CartProvider>
         </OrderProvider>

@@ -76,21 +76,13 @@ export default function KitchenPage() {
 
   const receivedOrders = orders.filter((o) => o.status === 'Received');
 
-  // Auto-refresh logic: reload the page a few seconds after the last order is cleared
-  // to ensure a clean state and stable connection.
-  const [hadOrders, setHadOrders] = useState(false);
-
-  useEffect(() => {
-    if (receivedOrders.length > 0) {
-      setHadOrders(true);
-    } else if (hadOrders && receivedOrders.length === 0) {
-      // Transitioned from having orders to having none
-      const timer = setTimeout(() => {
-        window.location.reload();
-      }, 3000); // Wait 3 seconds so the staff sees the box is empty before flashing
-      return () => clearTimeout(timer);
-    }
-  }, [receivedOrders.length, hadOrders]);
+  // BUG-14 FIX: Removed window.location.reload() that was triggered 3 s after the
+  // last order was cleared. The forced hard-reload caused:
+  //   1. White screen flash on the kitchen tablet.
+  //   2. Loss of real-time WebSocket events that arrived during the reload window.
+  //   3. Reset of browser autoplay audio permissions for the order-received chime.
+  // The Socket.IO event handlers (order_received, order_status_changed, etc.) already
+  // manage state updates correctly \u2014 no reload is needed for a clean idle state.
 
   const handleAction = (orderId, nextStatus) => {
     if (nextStatus === null) {
@@ -278,7 +270,17 @@ export default function KitchenPage() {
                                   {comboIsVeg ? '100% Veg Deal' : 'Non-Veg Deal'}
                                 </span>
                               </div>
-                              <h2 className="combo-detail-title">{selectedItem.name}</h2>
+                              <h2 className="combo-detail-title">
+                                {selectedItem.name}
+                                {(selectedItem.note || selectedItem.specialInstructions) && (
+                                  <span
+                                    className="item-detail-star"
+                                    title={`Special Instruction: ${selectedItem.note || selectedItem.specialInstructions}`}
+                                  >
+                                    ★
+                                  </span>
+                                )}
+                              </h2>
                             </div>
                             {selectedItem.isDone ? (
                               <span className="badge badge-success combo-prepared-badge">
@@ -312,6 +314,19 @@ export default function KitchenPage() {
                               🔥 {totalDishesCount} total dishes to prepare
                             </span>
                           </div>
+
+                          {/* Customer Special Instructions Callout */}
+                          {(selectedItem.note || selectedItem.specialInstructions) && (
+                            <div className="special-instruction-box animate-scaleIn">
+                              <div className="special-instruction-header">
+                                <span className="special-instruction-star">★</span>
+                                <h4>Special Instructions</h4>
+                              </div>
+                              <p className="special-instruction-text">
+                                "{selectedItem.note || selectedItem.specialInstructions}"
+                              </p>
+                            </div>
+                          )}
 
                           {comboDesc && (
                             <div className="combo-detail-overview">
@@ -357,6 +372,15 @@ export default function KitchenPage() {
                                         </span>
                                         <span className="combo-prep-item-name">
                                           {sub.name}
+                                          {(sub.note || sub.specialInstructions) && (
+                                            <span
+                                              className="item-detail-star"
+                                              style={{ fontSize: '0.95rem' }}
+                                              title={`Special Instruction: ${sub.note || sub.specialInstructions}`}
+                                            >
+                                              ★
+                                            </span>
+                                          )}
                                         </span>
                                         {selectedItem.qty > 1 && (
                                           <span className="combo-prep-subitem-each">
@@ -383,6 +407,13 @@ export default function KitchenPage() {
                                         </span>
                                       </div>
                                     </div>
+
+                                    {(sub.note || sub.specialInstructions) && (
+                                      <div className="combo-subitem-instruction">
+                                        <span className="special-instruction-star" style={{ fontSize: '0.85rem' }}>★</span>
+                                        <span>Special note: "{sub.note || sub.specialInstructions}"</span>
+                                      </div>
+                                    )}
 
                                     {subDesc && (
                                       <p className="combo-prep-item-description">
@@ -423,7 +454,17 @@ export default function KitchenPage() {
                                 {fullItem.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
                               </span>
                             )}
-                            <h2>{selectedItem.name}</h2>
+                            <h2>
+                              {selectedItem.name}
+                              {(selectedItem.note || selectedItem.specialInstructions) && (
+                                <span
+                                  className="item-detail-star"
+                                  title={`Special Instruction: ${selectedItem.note || selectedItem.specialInstructions}`}
+                                >
+                                  ★
+                                </span>
+                              )}
+                            </h2>
                           </div>
                           {selectedItem.isDone ? (
                             <span
@@ -455,6 +496,20 @@ export default function KitchenPage() {
                             </span>
                           )}
                         </div>
+
+                        {/* Customer Special Instructions Callout */}
+                        {(selectedItem.note || selectedItem.specialInstructions) && (
+                          <div className="special-instruction-box animate-scaleIn">
+                            <div className="special-instruction-header">
+                              <span className="special-instruction-star">★</span>
+                              <h4>Special Instructions</h4>
+                            </div>
+                            <p className="special-instruction-text">
+                              "{selectedItem.note || selectedItem.specialInstructions}"
+                            </p>
+                          </div>
+                        )}
+
                         <div className="item-detail-desc">{displayDesc}</div>
                       </div>
                     );

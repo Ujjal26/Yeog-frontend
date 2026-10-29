@@ -25,13 +25,16 @@ export default function TableCard({ table, orders, onPaymentDone }) {
   // Use custom name when available, fall back to "Table N"
   const tableLabel = table.name ? table.name : `Table ${table.number}`;
 
-  // Format time properly just in case it's a full ISO string from mockOrders
+  // BUG-12 FIX: Guard against null/undefined timeStr before calling .includes().
+  // If an order timestamp is missing, the old code threw "TypeError: Cannot read
+  // properties of undefined (reading 'includes')", crashing the admin dashboard.
   const formatTime = (timeStr) => {
-    if (timeStr.includes('T')) {
+    if (!timeStr) return '';
+    if (typeof timeStr === 'string' && timeStr.includes('T')) {
       const date = new Date(timeStr);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return isNaN(date.getTime()) ? timeStr : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
-    return timeStr;
+    return String(timeStr);
   };
 
   return (

@@ -24,6 +24,15 @@ export default function CheckoutPage() {
   const handlePlaceOrder = () => {
     if (items.length === 0 || isSubmitting) return;
 
+    // BUG-02 FIX: Block submission if socket is not connected.
+    // The old code called setSuccessModal(true) and clearCart() unconditionally
+    // even when socket?.connected was false, silently dropping the order forever
+    // with no error shown to the customer.
+    if (!socket?.connected) {
+      alert('Connection lost. Please wait a moment for reconnection, then try again.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     const newOrderId = generateOrderId();
@@ -36,7 +45,10 @@ export default function CheckoutPage() {
         description: i.description || '',
         qty: i.qty,
         price: i.price,
-        ...(i.note && { note: i.note }),
+        ...((i.note || i.specialInstructions) && {
+          note: (i.note || i.specialInstructions).trim(),
+          specialInstructions: (i.note || i.specialInstructions).trim(),
+        }),
         // Pass combo breakdown through so kitchen can see constituent dishes
         ...(i.isCombo && {
           isCombo: true,
@@ -48,15 +60,21 @@ export default function CheckoutPage() {
       total: total,
     };
 
-
-    addOrder(order);
-    setOrderId(newOrderId);
-    setSuccessModal(true);
-
-    // Emit order to backend → broadcasts to admin in real-time
-    if (socket?.connected) {
-      socket.emit('new_order', order);
-    }
+    // BUG-02 FIX: Emit with an acknowledgement callback.
+    // Cart is cleared and success modal is shown ONLY after the server confirms
+    // the order was saved. On failure, an error alert is shown so the customer
+    // knows to try again — the cart remains intact.
+    socket.emit('new_order', order, (res) => {
+      setIsSubmitting(false);
+      if (res?.success) {
+        // Server confirmed: use server-returned order for accurate total/id
+        addOrder(res.order || order);
+        setOrderId(newOrderId);
+        setSuccessModal(true);
+      } else {
+        alert(res?.message || 'Failed to place order. Please try again.');
+      }
+    });
   };
 
   const handleSuccessClose = () => {
